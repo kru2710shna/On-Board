@@ -1,0 +1,23 @@
+/* public/styles/main.css */
+.member-page {
+  font-family: Arial, sans-serif;
+  margin: 20px;
+}
+
+.member-page h2 {
+  font-size: 20px;
+  margin-top: 20px;
+}
+
+.member-page ul {
+  list-style-type: disc;
+  margin-left: 20px;
+}
+
+.about-page ul {
+  list-style-type: none;
+}
+
+.about-page li {
+  margin: 10px 0;
+}
