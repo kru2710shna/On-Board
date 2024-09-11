@@ -7,7 +7,7 @@ const MemberPage = () => {
 
   const members = {
     'krushna-thakkar': {
-      fullName: 'Krushna Thakkar',
+      fullName: 'Krushna cnecejbc;ejhakkar',
       bio: 'Krushna Thakkar is the Team Lead for this project.',
       details: `
         <h2>Skills</h2>
