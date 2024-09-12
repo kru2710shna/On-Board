@@ -70,7 +70,7 @@ const MemberPage = () => {
     'chetas-parekh': {
       fullName: 'Chetas Parekh',
       bio: 'Chetas Parekh is the Scrum Master for the Job Portal Project. He facilitates daily stand-ups, sprints, and retrospective meetings to keep the team on track and aligned with project goals.',
-      LinkedIn : '',
+      LinkedIn : 'www.linkedin.com/in/chetas-parekh-784334244',
       Major : 'Computer Science',
       School_Year: 'Grad-Freshmen',
       details: `
