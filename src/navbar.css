@@ -1,6 +1,6 @@
 /* src/App.css or src/components/NavBar.css */
 body.dark-mode {
-    background-color: #121212;
+    background-color: #020202;
     color: #ffffff;
 }
 
@@ -14,7 +14,7 @@ body.dark-mode {
 }
 
 .navbar-dark .form-control {
-    background-color: #333333;
+    background-color: #030303;
     color: white;
 }
 
@@ -25,4 +25,29 @@ body.dark-mode {
 .navbar-dark .btn-outline-success {
     color: #ffffff;
     border-color: #28a745;
+}
+
+.navbar-nav {
+    list-style-type: none; /* Removes bullets from list items */
+    padding: 0; /* Removes default padding */
+    margin: 0; /* Removes default margin */
+}
+
+.nav-item {
+    list-style-type: none; /* Ensures no bullets on individual nav items */
+}
+
+.dark-mode .bg-light {
+    background-color: #040404 !important; /* Change light background to dark */
+}
+
+.dark-mode .text-white {
+    color: #ffffff; /* Maintain white text color */
+}
+
+/* Adjust blockquote for dark mode */
+.dark-mode .blockquote {
+    background-color: #444444; /* Darker background for blockquotes */
+    border-left: 5px solid #ffffff; /* White border for contrast */
+    color: #ffffff; /* Ensure text is white */
 }

@@ -1,0 +1,17 @@
+/* src/components/Login.css */
+
+body.dark-mode {
+    background-color: #121212; /* Dark background color */
+    color: #ffffff; /* Light text color */
+}
+
+.card.bg-dark {
+    background-color: #1e1e1e; /* Dark card background */
+    border: none; /* Remove border */
+}
+
+/* Optional: Style the button for dark mode */
+.btn-secondary {
+    background-color: #3a3a3a; /* Darker button color */
+    color: #ffffff; /* Light text color */
+}

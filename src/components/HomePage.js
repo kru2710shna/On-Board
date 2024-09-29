@@ -7,7 +7,8 @@ export default function HomePage() {
     const navigate = useNavigate(); // Initialize the hook
 
     const handleGetStarted = () => {
-        navigate('/navbar'); // Navigate to NavbarPage when button is clicked
+        // Redirect to login or signup page
+        navigate('/login');  // Redirect to login or use '/signup' as needed
     };
 
     return (
@@ -71,7 +72,7 @@ export default function HomePage() {
             {/* CTA Section */}
             <section section className="cta-section text-center py-5 bg-secondary text-white" >
                 <h2>Ready to Launch Your Career?</h2>
-                <button className="btn btn-light btn-lg mt-3">Sign Up Now</button>
+                
             </section>
 
 
@@ -80,7 +81,7 @@ export default function HomePage() {
                 <div className="container">
                     <div className="row">
                         <div className="col-md-6">
-                            <a href="/about" className="text-white me-3">About Us</a>
+                            
                             <a href="/contact" className="text-white me-3">Contact</a>
                             <a href="/terms" className="text-white">Terms & Privacy</a>
                         </div>
