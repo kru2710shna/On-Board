@@ -1,0 +1,28 @@
+/* src/App.css or src/components/NavBar.css */
+body.dark-mode {
+    background-color: #121212;
+    color: #ffffff;
+}
+
+/* Navbar specific dark mode styling */
+.navbar-dark .navbar-nav .nav-link {
+    color: #ffffff;
+}
+
+.navbar-dark .navbar-brand {
+    color: #ffffff;
+}
+
+.navbar-dark .form-control {
+    background-color: #333333;
+    color: white;
+}
+
+.navbar-dark .form-control::placeholder {
+    color: #bbbbbb;
+}
+
+.navbar-dark .btn-outline-success {
+    color: #ffffff;
+    border-color: #28a745;
+}

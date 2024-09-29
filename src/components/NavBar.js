@@ -1,14 +1,21 @@
-import React from 'react'
 import members from './MemberData';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types'
-
+import React, { useState } from 'react';
+import '../navbar.css';
 
 const NavBar = () => {
 
+    const [darkMode, setDarkMode] = useState(false); 
+
+    const toggleDarkMode = () => {
+        setDarkMode(!darkMode); 
+        document.body.classList.toggle('dark-mode', !darkMode); 
+    };
+
     return (
         <div >
-            <nav className="navbar navbar-expand-lg bg-body-tertiary">
+            <nav className={`navbar navbar-expand-lg ${darkMode ? 'navbar-dark bg-dark' : 'navbar-light bg-light'}`}>
                 <div className="container-fluid">
                     <a className="navbar-brand" href="#">On-Board</a>
                     <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -35,8 +42,8 @@ const NavBar = () => {
                             </li>
                         </ul>
                         <div class="form-check form-switch">
-                            <input class="form-check-input"  type="checkbox" role="switch" id="flexSwitchCheckDefault" />
-                                <label class="form-check-label ms-1 me-3" for="flexSwitchCheckDefault">Dark Mode</label>
+                            <input class="form-check-input"  type="checkbox" role="switch" id="darkModeSwitch" checked={darkMode} onChange={toggleDarkMode}  />
+                                <label class="form-check-label ms-1 me-3" htmlFor="darkModeSwitch"> {darkMode ? 'Light Mode' : 'Dark Mode'} </label>
                         </div>
                         <form className="d-flex" role="search">
                             <input className="form-control me-2" type="search" placeholder="Search" aria-label="Search" />
