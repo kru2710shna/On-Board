@@ -50,6 +50,9 @@ const NavBar = ({ isLoggedIn, handleLogout }) => {
                                 <Link className="nav-link active" to="/signup">SignUp</Link>
                             </li> */}
                             <li className="nav-item">
+                                <Link className="nav-link active" to="/profile">Profile</Link>
+                            </li>
+                            <li className="nav-item">
                                 <Link className="nav-link active" to="/login">Login</Link>
                             </li>
                         </>
