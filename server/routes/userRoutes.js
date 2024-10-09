@@ -33,10 +33,21 @@ router.post('/signin', async (req, res) => {
     const isMatch = await bcrypt.compare(password, user.password);
     if (!isMatch) return res.status(400).json({ message: "Invalid credentials" });
 
+    // You might want to create a session here, or return a token
     res.status(200).json({ message: "Sign-in successful" });
   } catch (error) {
     res.status(500).json({ message: "Error signing in" });
   }
+});
+
+// Sign-Out Route
+router.post('/signout', async (req, res) => {
+  // If using session-based authentication
+  req.session = null;  // Clear session data
+  // If using token-based authentication
+  // No action needed here, just ensure the client deletes the token
+
+  res.status(200).json({ message: "Sign-out successful" });
 });
 
 module.exports = router;
