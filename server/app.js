@@ -1,25 +1,16 @@
-// server/app.js
 const express = require('express');
-const mongoose = require('mongoose');
-const cors = require('cors');
-const userRoutes = require('./routes/userRoutes');  // Import routes
-require('dotenv').config();  // Load environment variables
+const connnectToMongoose = require('../db');
+
+connnectToMongoose();  // Ensuring mongoose connects properly
 
 const app = express();
-app.use(express.json());
-app.use(cors());  // Allow cross-origin requests (for front-end communication)
+const port = 3000;
 
-// Connect to MongoDB
-mongoose.connect(process.env.MONGO_URI, {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-})
-.then(() => console.log('MongoDB connected'))
-.catch((err) => console.log(err));
+// respond with "hello world" when a GET request is made to the homepage
+app.get('/', (req, res) => {
+  res.send('hello world');
+});
 
-// Routes
-app.use('/api/users', userRoutes);  // Add user routes
-
-// Start server
-const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+app.listen(port, () => {
+  console.log(`Listening on port ${port}`);
+});
