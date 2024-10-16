@@ -2,8 +2,7 @@ const express = require('express');
 const connectToMongo = require('./db');
 
 const app = express();
-const port = 5001;
-
+require('dotenv').config();
 // Middleware to parse JSON bodies
 app.use(express.json());
 
@@ -13,6 +12,6 @@ connectToMongo();
 // Use user routes
 app.use('/api/auth', require('./routes/userRoutes'));
 
-app.listen(port, () => {
-  console.log(`Listening on port http://localhost:${port}`);
+app.listen(process.env.PORT, () => {
+  console.log(`Listening on port http://localhost:${process.env.PORT}`);
 });

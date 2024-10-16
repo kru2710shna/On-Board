@@ -1,10 +1,9 @@
 const mongoose = require('mongoose');
-
-const mongoURI = "mongodb+srv://user_1:Z952bHZuGqLAQNla@cluster0.efzi6.mongodb.net/On-Board";
+const express = require('express');
 
 const connectToMongo = async () => {
     try {
-        await mongoose.connect(mongoURI, {
+        await mongoose.connect(process.env.mongoURI, {
             useNewUrlParser: true,
             useUnifiedTopology: true
         });
