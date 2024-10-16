@@ -22,14 +22,15 @@ router.post('/createuser', [
     if (user) {
       return res.status(400).json({ error: "User Already Exists" })
     }
-
-    user = await Usejr.create({
+    // Create New User 
+    user = await User.create({
       name: req.body.name,
       password: req.body.password,
       email: req.body.email
     })
     res.json(user)
   }
+  // If Anything is WRONG Internally 
   catch (err) {
     console.log(err)
     res.status(500).send("Internal Error Occured")
