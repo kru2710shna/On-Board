@@ -1,5 +1,4 @@
-///server/middleware/fetchUser
-
+// /server/midl/fetchJobs
 var jwt = require('jsonwebtoken');
 require('dotenv').config();
 const express = require('express');
@@ -12,6 +11,7 @@ const fetchUser =(req,res, next) => {
         res.status(401).send({error : "Please Authenticate using Valid Toekn"})
     }
     try { 
+        console.log('Token received:', token);
         const data = jwt.verify(token, process.env.JWT_SECRET)
         req.user = data.user
         next();
@@ -19,6 +19,7 @@ const fetchUser =(req,res, next) => {
     }
     catch (err) {
         console.log(err)
+        console.error('Token verification error:', err);
         res.status(500).send("Internal Server Error")
     }
 }

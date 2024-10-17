@@ -10,7 +10,8 @@ app.use(express.json());
 connectToMongo();
 
 // Use user routes
-app.use('/api/auth', require('./routes/userRoutes'));
+app.use('/api/user', require('./routes/userRoutes'));
+app.use('/api/jobs', require('./routes/jobRoutes'));
 
 app.listen(process.env.PORT, () => {
   console.log(`Listening on port http://localhost:${process.env.PORT}`);
