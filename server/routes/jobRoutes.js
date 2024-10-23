@@ -88,4 +88,25 @@ router.put('/updatejob/:id', fetchUser, async (req, res) => {
 
 })
 
+// ROUTE -4 Delete Jobs: DELETE "/api/jobs/deletejob" Login required
+router.delete('/deletejob/:id', fetchUser, async (req, res) => {
+    const { jobCompany, jobDescription, jobSalary, jobTitle, jobType } = req.body
+
+    
+    let job = await Jobs.findById(req.params.id)
+    if (!job) {
+        res.status(404).send("Not Found")
+    }
+    // Allow deletion if user wons this Job
+
+    if (job.user.toString() !== req.user.id) {
+        return res.status(401).send("Not Found")
+    }
+
+    job = await Jobs.findByIdAndDelete(req.params.id)
+    res.json({"Success": "This Job is deleted"})
+
+})
+
+
 module.exports = router
