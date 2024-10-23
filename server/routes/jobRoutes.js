@@ -54,6 +54,38 @@ router.post('/addjob', fetchUser, [
     }
 })
 
+// ROUTE -3 Update Jobs: PUT "/api/jobs/updatejob" Login required
+router.put('/updatejob/:id', fetchUser, async (req, res) => {
+    const { jobCompany, jobDescription, jobSalary, jobTitle, jobType } = req.body
 
+    //Create A new Job
+    const newJob = {}
+    if (jobCompany) {
+        newJob.jobCompany = jobCompany
+    }
+    if (jobDescription) {
+        newJob.jobDescription = jobDescription
+    }
+    if (jobSalary) {
+        newJob.jobSalary = jobSalary
+    }
+    if (jobTitle) {
+        newJob.jobTitle = jobTitle
+    }
+    if (jobType) {
+        newJob.jobType = jobType
+    }
+
+    let job = await Jobs.findById(req.params.id)
+    if (!job) {
+        res.status(404).send("Not Found")
+    }
+    if (job.user.toString() !== req.user.id) {
+        return res.status(401).send("Not Found")
+    }
+    job = await Jobs.findByIdAndUpdate(req.params.id, { $set: newJob }, { new: true })
+    res.json({ job })
+
+})
 
 module.exports = router
