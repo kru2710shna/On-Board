@@ -9,46 +9,47 @@ import MemberPage from './components/MemberPage';
 import Login from './components/Login';
 import SignUp from './components/SignUp';
 import Logout from './components/Logout';
-import BodyPage from './components/BodyPage'; // Import BodyPage
-import { AuthProvider } from './components/AuthContext';
+import BodyPage from './components/BodyPage';
+import Profile from './components/Profile';
+import News from './components/News';
 
 function App() {
-    const [isAuthenticated, setIsAuthenticated] = useState(false);
     const [isDarkMode, setIsDarkMode] = useState(false);
 
-    const toggleDarkMode = () => {
-        setIsDarkMode(prevMode => !prevMode);
-        localStorage.setItem('darkMode', !isDarkMode);
-    };
-
+    // Load the user's preference from localStorage
     useEffect(() => {
-        const loggedIn = localStorage.getItem('isAuthenticated');
-        if (loggedIn) {
-            setIsAuthenticated(true);
-        }
+        const savedMode = localStorage.getItem('darkMode') === 'true';
+        setIsDarkMode(savedMode);
     }, []);
 
-    return (
-        <AuthProvider>
-            <Router>
-                {isAuthenticated && <NavBar isDarkMode={isDarkMode} toggleDarkMode={toggleDarkMode} />}
+    const toggleDarkMode = () => {
+        const newMode = !isDarkMode;
+        setIsDarkMode(newMode);
+        localStorage.setItem('darkMode', newMode); 
 
+        const iframe = document.getElementById('news-iframe'); 
+        if (iframe) {
+            iframe.contentWindow.postMessage({ darkMode: newMode }, '*');
+        }
+    };
+
+    return (
+        <Router>
+            <div className={isDarkMode ? 'bg-dark text-white' : 'bg-light text-dark'}>
+                <NavBar isDarkMode={isDarkMode} toggleDarkMode={toggleDarkMode} />
                 <Routes>
-                    <Route exact path='/' element={<HomePage />} />
-                    <Route path="/signup" element={<SignUp setIsAuthenticated={setIsAuthenticated} />} />
-                    <Route path="/login" element={<Login setIsAuthenticated={setIsAuthenticated} />} />
-                    {/* Add BodyPage route */}
-                    {isAuthenticated && <Route path="/body" element={<BodyPage />} />}
-                    {isAuthenticated && (
-                        <>
-                            <Route path="/about" element={<AboutPage isDarkMode={isDarkMode} />} />
-                            <Route path="/member/:name" element={<MemberPage isDarkMode={isDarkMode} />} />
-                            <Route path="/logout" element={<Logout setIsAuthenticated={setIsAuthenticated} />} />
-                        </>
-                    )}
+                    <Route exact path='/' element={<HomePage isDarkMode={isDarkMode} />} />
+                    <Route path="/signup" element={<SignUp />} />
+                    <Route path="/login" element={<Login />} />
+                    <Route path="/body" element={<BodyPage isDarkMode={isDarkMode} />} />
+                    <Route path="/about" element={<AboutPage />} />
+                    <Route path="/member/:name" element={<MemberPage />} />
+                    <Route path="/profile" element={<Profile />} />
+                    <Route path="/logout" element={<Logout />} />
+                    <Route path="/news" element={<News isDarkMode={isDarkMode} />} />
                 </Routes>
-            </Router>
-        </AuthProvider>
+            </div>
+        </Router>
     );
 }
 

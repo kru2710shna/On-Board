@@ -1,8 +1,11 @@
-/* src/components/BodyPage.css */
-.job-card {
-    border: 1px solid #ddd;
-    border-radius: 4px;
-    padding: 15px;
+.job-card, .group-card {
+    border: 1px solid #ccc;
+    border-radius: 5px;
     margin-bottom: 15px;
-    background-color: #f9f9f9;
+    padding: 15px;
+}
+
+.group-list {
+    max-height: 400px; /* Optional: Limit height for scrolling */
+    overflow-y: auto; /* Optional: Enable scrolling if content exceeds height */
 }
