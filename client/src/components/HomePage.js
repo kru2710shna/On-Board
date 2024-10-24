@@ -1,31 +1,28 @@
+// src/components/HomePage.js
 import React from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css'; // Import Bootstrap styles
 import { useNavigate } from 'react-router-dom';
 
-
-export default function HomePage() {
+export default function HomePage({ isDarkMode }) {
     const navigate = useNavigate(); // Initialize the hook
 
     const handleGetStarted = () => {
-        // Redirect to login or signup page
-        navigate('/login');  // Redirect to login or use '/signup' as needed
+        navigate('/login');  // Redirect to login or use '/signup' as needed 
     };
 
     return (
-
         <div>
             {/* Hero Section */}
-            <section section className="hero-section d-flex align-items-center justify-content-center bg-primary text-white text-center py-5" >
+            <section className="hero-section d-flex align-items-center justify-content-center bg-primary text-white text-center py-5">
                 <div>
                     <h1>Shape Your Career Path</h1>
                     <p>Helping college students prepare for their careers with personalized job matching, alumni networking, and project showcases.</p>
-                    <button className="btn btn-light btn-lg mt-3" onClick={handleGetStarted}  >Get Started</button>
+                    <button className="btn btn-light btn-lg mt-3" onClick={handleGetStarted}>Get Started</button>
                 </div>
             </section>
 
-
             {/* Features Section */}
-            <section section className="features-section container py-5" >
+            <section className="features-section container py-5">
                 <div className="row text-center">
                     <div className="col-md-4">
                         <i className="fas fa-user fa-3x mb-3"></i>
@@ -45,9 +42,8 @@ export default function HomePage() {
                 </div>
             </section>
 
-
             {/* Testimonials Section */}
-            <section section className="testimonials-section bg-light py-5" >
+            <section className={`testimonials-section ${isDarkMode ? 'bg-dark text-white' : 'bg-light text-dark'} py-5`}>
                 <div className="container">
                     <h2 className="text-center mb-5">Success Stories</h2>
                     <div className="row text-center">
@@ -67,20 +63,16 @@ export default function HomePage() {
                 </div>
             </section>
 
-
             {/* CTA Section */}
-            <section section className="cta-section text-center py-5 bg-secondary text-white" >
+            <section className="cta-section text-center py-5 bg-secondary text-white">
                 <h2>Ready to Launch Your Career?</h2>
-                
             </section>
 
-
             {/* Footer Section */}
-            <footer footer className="footer py-4 bg-dark text-white text-center" >
+            <footer className="footer py-4 bg-dark text-white text-center">
                 <div className="container">
                     <div className="row">
                         <div className="col-md-6">
-                            
                             <a href="/contact" className="text-white me-3">Contact</a>
                             <a href="/terms" className="text-white">Terms & Privacy</a>
                         </div>
@@ -94,8 +86,7 @@ export default function HomePage() {
                         </div>
                     </div>
                 </div>
-                </footer>
-
-        </div >
+            </footer>
+        </div>
     );
 }

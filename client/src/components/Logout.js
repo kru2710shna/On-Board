@@ -2,12 +2,13 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 
-const Logout = ({ handleLogout }) => {
+const Logout = (/* { handleLogout } */) => {
     const navigate = useNavigate();
 
     const confirmLogout = () => {
-        handleLogout();
+        // handleLogout(); // Commenting out the actual logout function
         navigate('/'); // Redirect after logout
+        alert('Logged out successfully'); // Temporary alert to simulate logout
     };
 
     return (

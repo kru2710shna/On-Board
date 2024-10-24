@@ -1,34 +1,18 @@
 // src/components/Login.js
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { useAuth } from './AuthContext';
+// import { useAuth } from './AuthContext';
 
 const Login = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
-    const navigate = useNavigate(); // To navigate after login
-    const { handleLogin } = useAuth(); // Get handleLogin from context
+    const navigate = useNavigate();
 
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            const response = await fetch('https://your-backend-api.com/login', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({ email, password }),
-            });
-
-            if (response.ok) {
-                const data = await response.json();
-                localStorage.setItem('token', data.token); // Store token
-                handleLogin(); // Call the handleLogin to update state
-                navigate('/'); // Redirect to homepage after login
-            } else {
-                const errorData = await response.json();
-                alert(errorData.message || 'Login failed');
-            }
+            alert('Login form submitted');
+            navigate('/body');
         } catch (error) {
             console.error('Error:', error);
             alert('Login failed');
@@ -65,6 +49,7 @@ const Login = () => {
                                         required
                                     />
                                 </div>
+                                
                                 <button type="submit" className="btn btn-primary w-100">Login</button>
                             </form>
                             <div className="mt-3 text-center">

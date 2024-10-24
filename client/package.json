@@ -18,8 +18,8 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "dev": "concurrently \"npm run start\" \"npm run server\"",
-    "server": "nodemon ../server/app.js"
+    "server": "nodemon ../server/app.js",
+    "both": "concurrently \"npm run start\" \"nodemon server/app.js\""
   },
   "routes": {
     "/**": "index.html"

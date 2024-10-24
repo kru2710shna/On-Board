@@ -14,8 +14,8 @@ const SignUp = () => {
             alert("Passwords don't match!");
             return;
         }
-        // Handle signup logic here
-        console.log('SignUp Details:', { name, email, password, userType });
+
+        alert('Sign up form submitted');
     };
 
     return (
@@ -71,7 +71,7 @@ const SignUp = () => {
                                     />
                                 </div>
                                 <div className="mb-3">
-                                    <label htmlFor="userType" className="form-label">You are:</label>
+                                    <label htmlFor="userType" className="form-label">User Type:</label>
                                     <select
                                         id="userType"
                                         className="form-control"
@@ -81,7 +81,8 @@ const SignUp = () => {
                                     >
                                         <option value="">Select user type</option>
                                         <option value="student">Student</option>
-                                        <option value="employer">Employer</option>
+                                        <option value="employer">Recruiter</option>
+                                        <option value="employer">Comapny</option>
                                     </select>
                                 </div>
                                 <button type="submit" className="btn btn-primary w-100">Sign Up</button>
