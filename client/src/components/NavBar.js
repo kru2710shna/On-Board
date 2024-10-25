@@ -45,6 +45,9 @@ const NavBar = ({ isDarkMode, toggleDarkMode }) => {
                         <li className="nav-item me-3">
                             <Link className="nav-link" to="/news" onClick={() => changeTitleInIframe('On-Board NewsBreak')}>News</Link>
                         </li>
+                        <li className="nav-item me-3">
+                            <Link className="nav-link" to="/jobs" onClick={() => changeTitleInIframe('On-Board NewsBreak')}>Jobs</Link>
+                        </li>
                     </ul>
                     <div className="form-check form-switch">
                         <input className="form-check-input" type="checkbox" role="switch" id="darkModeSwitch" checked={isDarkMode} onChange={toggleDarkMode} />
