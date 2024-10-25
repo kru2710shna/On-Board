@@ -14,7 +14,7 @@ import EditProfile from './components/EditProfile';
 import News from './components/News';
 import Jobs from './components/Jobs';
 import JobState from './context/Jobs/JobsState';
-
+import AddJob from './components/AddJob'
 function App() {
     const [isDarkMode, setIsDarkMode] = useState(false);
     const [user, setUser] = useState({
@@ -71,6 +71,7 @@ function App() {
                         <Route path="/edit-profile" element={<EditProfile user={user} onSave={handleProfileSave} />} />
                         <Route path="/logout" element={<Logout />} />
                         <Route path="/news" element={<News isDarkMode={isDarkMode} />} />
+                        <Route path="/AddJob" element={<AddJob />} />
                     </Routes>
                 </Router>
             </div>
