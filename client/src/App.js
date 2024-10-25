@@ -1,7 +1,6 @@
-// src/App.js
 import './App.css';
 import React, { useState, useEffect } from 'react';
-import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';  // Removed unused import
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import HomePage from './components/HomePage';
 import NavBar from './components/NavBar';
 import AboutPage from './components/AboutPage';
@@ -13,7 +12,8 @@ import BodyPage from './components/BodyPage';
 import Profile from './components/Profile';
 import EditProfile from './components/EditProfile';
 import News from './components/News';
-import { UserJobs } from './components/UserJobs';  // Named import for UserJobs
+import Jobs from './components/Jobs';
+import JobState from './context/Jobs/JobsState';
 
 function App() {
     const [isDarkMode, setIsDarkMode] = useState(false);
@@ -55,24 +55,26 @@ function App() {
     };
 
     return (
-        <div className={isDarkMode ? 'bg-dark text-white' : 'bg-light text-dark'}>
-            <Router>
-                <NavBar isDarkMode={isDarkMode} toggleDarkMode={toggleDarkMode} />
-                <Routes>
-                    <Route exact path='/' element={<HomePage isDarkMode={isDarkMode} />} />
-                    <Route path="/signup" element={<SignUp />} />
-                    <Route path="/login" element={<Login />} />
-                    <Route path="/body" element={<BodyPage isDarkMode={isDarkMode} />} />
-                    <Route path="/about" element={<AboutPage />} />
-                    <Route path="/member/:name" element={<MemberPage />} />
-                    <Route path="/profile" element={<Profile user={user} onEdit={() => {}} />} /> {/* No navigate here */}
-                    <Route path="/userjobs" element={<UserJobs />} />
-                    <Route path="/edit-profile" element={<EditProfile user={user} onSave={handleProfileSave} />} />
-                    <Route path="/logout" element={<Logout />} />
-                    <Route path="/news" element={<News isDarkMode={isDarkMode} />} />
-                </Routes>
-            </Router>
-        </div>
+        <JobState>
+            <div className={isDarkMode ? 'bg-dark text-white' : 'bg-light text-dark'}>
+                <Router>
+                    <NavBar isDarkMode={isDarkMode} toggleDarkMode={toggleDarkMode} />
+                    <Routes>
+                        <Route exact path='/' element={<HomePage isDarkMode={isDarkMode} />} />
+                        <Route path="/signup" element={<SignUp />} />
+                        <Route path="/login" element={<Login />} />
+                        <Route path="/body" element={<BodyPage isDarkMode={isDarkMode} />} />
+                        <Route path="/about" element={<AboutPage />} />
+                        <Route path="/member/:name" element={<MemberPage />} />
+                        <Route path="/profile" element={<Profile user={user} onEdit={() => { }} />} />
+                        <Route path="/jobs" element={<Jobs />} />
+                        <Route path="/edit-profile" element={<EditProfile user={user} onSave={handleProfileSave} />} />
+                        <Route path="/logout" element={<Logout />} />
+                        <Route path="/news" element={<News isDarkMode={isDarkMode} />} />
+                    </Routes>
+                </Router>
+            </div>
+        </JobState>
     );
 }
 
