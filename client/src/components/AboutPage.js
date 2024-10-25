@@ -1,12 +1,15 @@
 // src/components/AboutPage.js
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { useContext } from 'react';
 
 const AboutPage = () => {
   return (
     <div className="container about my-5">
       <header className="text-center mb-4">
-        <h1>About Our Team</h1>
+        <h1>About Our Team
+        </h1>
+
         <p>Meet the professional individuals behind the Job Portal Project.</p>
       </header>
       <div className="row justify-content-center">
