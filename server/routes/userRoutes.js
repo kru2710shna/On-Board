@@ -18,6 +18,7 @@ router.post('/createuser', [
   body('name', 'Name must be at least 5 characters').isLength({ min: 5 }),
   body('password', 'Password must be at least 6 characters').isLength({ min: 6 }),
   body('email', 'Enter a valid email').isEmail(),
+  body('type', 'Student/Company/Recruiter').isLength({ min: 7}),
 ], async (req, res) => {
   // Handle Bad Request
   const errors = validationResult(req);
@@ -39,7 +40,8 @@ router.post('/createuser', [
     user = await User.create({
       name: req.body.name,
       password: secPass,
-      email: req.body.email
+      email: req.body.email,
+      type:req.body.type
     })
     const data = {
       user: {
@@ -117,7 +119,6 @@ router.post('/getuser', fetchUser,async (req, res) => {
   }
 
 })
-
 
 
 module.exports = router

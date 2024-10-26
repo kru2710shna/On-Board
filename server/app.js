@@ -1,10 +1,11 @@
 const express = require('express');
 const connectToMongo = require('./db');
-
+var cors = require('cors');
 const app = express();
 require('dotenv').config();
 // Middleware to parse JSON bodies
 app.use(express.json());
+app.use(cors())
 
 // Connect to MongoDB
 connectToMongo();

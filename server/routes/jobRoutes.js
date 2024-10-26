@@ -78,10 +78,10 @@ router.put('/updatejob/:id', fetchUser, async (req, res) => {
 
     let job = await Jobs.findById(req.params.id)
     if (!job) {
-        res.status(404).send("Not Found")
+        return res.status(404).send("Job Not Found")
     }
     if (job.user.toString() !== req.user.id) {
-        return res.status(401).send("Not Found")
+        return res.status(401).send("Not Authorized")
     }
     job = await Jobs.findByIdAndUpdate(req.params.id, { $set: newJob }, { new: true })
     res.json({ job })
@@ -92,19 +92,20 @@ router.put('/updatejob/:id', fetchUser, async (req, res) => {
 router.delete('/deletejob/:id', fetchUser, async (req, res) => {
     const { jobCompany, jobDescription, jobSalary, jobTitle, jobType } = req.body
 
-    
+
     let job = await Jobs.findById(req.params.id)
+
     if (!job) {
-        res.status(404).send("Not Found")
+        return res.status(404).send("Job Not Found")
     }
     // Allow deletion if user wons this Job
 
     if (job.user.toString() !== req.user.id) {
-        return res.status(401).send("Not Found")
+        return res.status(401).send("Not Authorized")
     }
 
-    job = await Jobs.findByIdAndDelete(req.params.id)
-    res.json({"Success": "This Job is deleted"})
+    await Jobs.findByIdAndDelete(req.params.id)
+    res.json({ "Success": "This Job is deleted" })
 
 })
 
