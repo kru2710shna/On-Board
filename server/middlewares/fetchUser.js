@@ -15,12 +15,11 @@ const fetchUser =(req,res, next) => {
         const data = jwt.verify(token, process.env.JWT_SECRET)
         req.user = data.user
         next();
-
     }
     catch (err) {
         console.log(err)
         console.error('Token verification error:', err);
-        res.status(500).send("Internal Server Error")
+        return res.status(401).send({ error: "Please Authenticate using a Valid Token" });
     }
 }
 module.exports = fetchUser;
