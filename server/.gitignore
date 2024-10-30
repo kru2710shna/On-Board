@@ -26,3 +26,12 @@ Thumbs.db
 # Temporary files
 *.tmp
 *.swp
+
+# Ignore node_modules
+node_modules/
+
+# Ignore cache files
+.cache/
+client/node_modules/
+client/node_modules/.cache/
+
