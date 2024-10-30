@@ -1,3 +1,4 @@
+//client/src/components/Jobs.js
 import React, { useContext, useEffect, useRef, useState } from 'react';
 import JobContext from '../context/Jobs/jobsContext';
 import JobsItem from './JobsItem';
@@ -9,8 +10,8 @@ const Jobs = () => {
 
   const [currentJob, setCurrentJob] = useState(null);
   const [newJob, setNewJob] = useState({ jobTitle: '', jobDescription: '', jobSalary: '', jobCompany: '', jobType: '' });
-  const editRef = useRef(null);  
-  const addRef = useRef(null); 
+  const editRef = useRef(null);
+  const addRef = useRef(null);
 
   useEffect(() => {
     getalljobs();
@@ -29,20 +30,26 @@ const Jobs = () => {
   };
 
   const handleAddSubmit = async () => {
-    if (newJob.jobTitle && newJob.jobDescription) {
+    try {
+      // Check for required fields
+      if (!newJob.jobTitle || !newJob.jobDescription || !newJob.jobCompany || !newJob.jobSalary) {
+        console.log("Please fill in all required fields.");
+        alert("Please fill in all required fields.");
+        return; // Exit function early if validation fails
+      }
       console.log("Adding job:", newJob);
       await addJob(newJob);
-      
-      // Reset form fields after submission
+
+      // Reset form fields after successful submission
       setNewJob({ jobTitle: '', jobDescription: '', jobSalary: '', jobCompany: '', jobType: '' });
-      
+
       // Refresh job list to reflect new addition
-      getalljobs();
-    } else {
-      console.log("Please fill in all required fields.");
+      await getalljobs();
+
+    } catch (error) {
+      console.error("Error in handleAddSubmit:", error);
     }
   };
-
   const handleEditChange = (e) => {
     setCurrentJob({ ...currentJob, [e.target.name]: e.target.value });
   };
@@ -99,6 +106,7 @@ const Jobs = () => {
               <textarea name="jobDescription" value={newJob.jobDescription} onChange={handleAddChange} className="form-control mb-2" placeholder="Job Description"></textarea>
               <input type="text" name="jobCompany" value={newJob.jobCompany} onChange={handleAddChange} className="form-control mb-2" placeholder="Company Name" />
               <input type="number" name="jobSalary" value={newJob.jobSalary} onChange={handleAddChange} className="form-control mb-2" placeholder="Salary" />
+              <input type="text" name="jobType" value={newJob.jobType} onChange={handleAddChange} className="form-control mb-2" placeholder="Type" />
             </div>
             <div className="modal-footer">
               <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Close</button>
