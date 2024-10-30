@@ -15,10 +15,10 @@ var fetchUser = require('../middlewares/fetchUser')
 
 // Route-1 Create User - POST "/api/user/createuser" - No Login Required 
 router.post('/createuser', [
-  body('name', 'Name must be at least 5 characters').isLength({ min: 5 }),
-  body('password', 'Password must be at least 6 characters').isLength({ min: 6 }),
+  body('name', 'Name must be at least 5 characters').isLength({ min: 3 }),
+  body('password', 'Password must be at least 6 characters').isLength({ min: 5 }),
   body('email', 'Enter a valid email').isEmail(),
-  body('type', 'Student/Company/Recruiter').isLength({ min: 7 }),
+  body('type').isIn(['Student', 'Recruiter', 'Company']).withMessage('Type must be either Student, Recruiter, or Company'),
 ], async (req, res) => {
   // Handle Bad Request
   const errors = validationResult(req);
