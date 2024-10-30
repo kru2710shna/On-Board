@@ -13,12 +13,12 @@ var fetchUser = require('../middlewares/fetchUser')
 
 
 
-// Route-1 Create User - POST "/api/auth/createuser" - No Login Required 
+// Route-1 Create User - POST "/api/user/createuser" - No Login Required 
 router.post('/createuser', [
   body('name', 'Name must be at least 5 characters').isLength({ min: 5 }),
   body('password', 'Password must be at least 6 characters').isLength({ min: 6 }),
   body('email', 'Enter a valid email').isEmail(),
-  body('type', 'Student/Company/Recruiter').isLength({ min: 7}),
+  body('type', 'Student/Company/Recruiter').isLength({ min: 7 }),
 ], async (req, res) => {
   // Handle Bad Request
   const errors = validationResult(req);
@@ -41,7 +41,7 @@ router.post('/createuser', [
       name: req.body.name,
       password: secPass,
       email: req.body.email,
-      type:req.body.type
+      type: req.body.type
     })
     const data = {
       user: {
@@ -60,7 +60,7 @@ router.post('/createuser', [
 
 
 
-// Route-2 Login User - POST "/api/auth/login" - Login Required 
+// Route-2 Login User - POST "/api/user/login" - Login Required 
 router.post('/login', [
   body('password', 'Password Canot be Blank ').exists(),
   body('email', 'Enter a valid email').isEmail(),
@@ -79,7 +79,8 @@ router.post('/login', [
 
     const passowrdCompare = await bcrypt.compare(password, user.password)
     if (!passowrdCompare) {
-      return res.status(403).json({ error: "Invalid Username or Password" });
+      Success = false
+      return res.status(403).json({ Success, error: "Invalid Username or Password" });
     }
 
     const data = {
@@ -88,8 +89,8 @@ router.post('/login', [
       }
     }
     const token = jwt.sign(data, process.env.JWT_SECRET);
-
-    res.json({ token })
+    Success = true
+    res.json({ Success, token })
 
   }
   catch (error) {
@@ -99,8 +100,8 @@ router.post('/login', [
   }
 })
 
-// Route-3 Get All User - POST "/api/auth/getuserdata" - Login Required 
-router.post('/getuser', fetchUser,async (req, res) => {
+// Route-3 Get All User - POST "/api/user/getuserdata" - Login Required 
+router.post('/getuser', fetchUser, async (req, res) => {
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
     return res.status(400).json({ errors: errors.array() });

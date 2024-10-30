@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import JobContext from './jobsContext';
 
 const JobState = (props) => {
-  let HOST_URL = 'http://localhost:5001/';
+  let HOST_URL = String(process.env.REACT_APP_API_BASE_URL);
   const initialJobs = [];
   const [jobs, setJobs] = useState(initialJobs);
 
@@ -11,7 +11,7 @@ const JobState = (props) => {
   const addJob = async (newJob) => {
     const { jobTitle, jobDescription, jobSalary, jobType, jobCompany } = newJob;
     try {
-      const response = await fetch(`${HOST_URL}api/jobs/addjob`, {
+      const response = await fetch(`${HOST_URL}api/${String(process.env.REACT_APP_JOBS_TAG)}/${String(process.env.REACT_APP_ADDJOBS_TAG)}`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -39,7 +39,7 @@ const JobState = (props) => {
   // Delete Jobs
   const deletejob = async (id) => {
     try {
-      const response = await fetch(`${HOST_URL}api/jobs/deletejob/${id}`, {
+      const response = await fetch(`${HOST_URL}api/${String(process.env.REACT_APP_JOBS_TAG)}/${String(process.env.REACT_APP_DELETE_TAG)}/${id}`, {
         method: 'DELETE',
         headers: {
           'Content-Type': 'application/json',
@@ -62,7 +62,7 @@ const JobState = (props) => {
   // Edit Jobs 
   const editjob = async (id, jobTitle, jobDescription, jobSalary, jobType, jobCompany) => {
     try {
-      const response = await fetch(`${HOST_URL}api/jobs/updatejob/${id}`, {
+      const response = await fetch(`${HOST_URL}api/${String(process.env.REACT_APP_JOBS_TAG)}/${String(process.env.REACT_APP_UPDATE_TAG)}/${id}`, {
         method: 'PUT',  // Use PUT or PATCH here based on backend requirements
         headers: {
           'Content-Type': 'application/json',
@@ -88,7 +88,7 @@ const JobState = (props) => {
   // Fetch All Jobs
   const getalljobs = async () => {
     try {
-      const response = await fetch(`${HOST_URL}api/jobs/fetchalljobs`, {
+      const response = await fetch(`${HOST_URL}api/${String(process.env.REACT_APP_JOBS_TAG)}/${String(process.env.REACT_APP_FETCH_TAG)}`, {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
