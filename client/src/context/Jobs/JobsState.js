@@ -3,66 +3,112 @@ import React, { useState } from "react";
 import JobContext from './jobsContext';
 
 const JobState = (props) => {
-  const initialJobs = [
-    {
-      "_id": "67118e4107d611d4bebbbadb",
-      "jobTitle": "DevOps Engineer",
-      "jobDescription": "Manage infrastructure, automate workflows, and ensure efficient CI/CD processes.",
-      "jobSalary": "85000",
-      "jobType": "Full-time",
-      "jobCompany": "CloudTech Solutions",
-    },
-    {
-      "_id": "671299b7f2d437f7c651923a",
-      "jobTitle": "Machine Learning Engineer",
-      "jobDescription": "Develop machine learning models and integrate them into scalable applications.",
-      "jobSalary": "105000",
-      "jobType": "Full-time",
-      "jobCompany": "AI Innovators Inc.",
-    },
-    {
-      "_id": "6712a2c4f2d437f7c651923c",
-      "user": "67103c4e6e1dd166e10cc316",
-      "jobTitle": "Mobile App Developer",
-      "jobDescription": "Design and build advanced applications for mobile platforms.",
-      "jobSalary": "90000",
-      "jobType": "Full-time",
-      "jobCompany": "AppDev Solutions",
-      "date": "2024-10-18T18:02:44.549Z",
-      "__v": 0
-    }
-  ];
-
+  let HOST_URL = 'http://localhost:5001/';
+  const initialJobs = [];
   const [jobs, setJobs] = useState(initialJobs);
 
   // Add Jobs 
-  const addJob = (newJob) => {
-    const job = {
-      ...newJob,
-      _id: Date.now().toString(),  // Generate a unique ID for the new job
-      date: new Date().toISOString()
-    };
-    setJobs([...jobs, job]);  // Add the new job to the state without mutating it
+  const addJob = async (newJob) => {
+    const { jobTitle, jobDescription, jobSalary, jobType, jobCompany } = newJob;
+    try {
+      const response = await fetch(`${HOST_URL}api/jobs/addjob`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'auth_token': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjcxMDNjNGU2ZTFkZDE2NmUxMGNjMzE2In0sImlhdCI6MTcyOTExNzI2Mn0.3eJbc01Yo-qeFCffFx-O77reE-iER8vQCb7yYPGbf3w',
+        },
+        body: JSON.stringify({ jobTitle, jobDescription, jobSalary, jobType, jobCompany }),
+      });
+
+      // Check if response is OK (status 200-299)
+      if (!response.ok) {
+        throw new Error(`Failed to add job: ${response.statusText}`);
+      }
+
+      // Parse response to confirm new job creation
+      const addedJob = await response.json();
+      console.log("Job added successfully:", addedJob);
+
+      // Update state with new job
+      setJobs([...jobs, addedJob]);
+    } catch (error) {
+      console.error("Error adding job:", error);
+    }
   };
 
-
-
-
   // Delete Jobs
-  const deletejob = () => {
+  const deletejob = async (id) => {
+    try {
+      const response = await fetch(`${HOST_URL}api/jobs/deletejob/${id}`, {
+        method: 'DELETE',
+        headers: {
+          'Content-Type': 'application/json',
+          'auth_token': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjcxMDNjNGU2ZTFkZDE2NmUxMGNjMzE2In0sImlhdCI6MTcyOTExNzI2Mn0.3eJbc01Yo-qeFCffFx-O77reE-iER8vQCb7yYPGbf3w',
+        }
+      });
 
-  }
+      if (response.ok) {
+        // Remove the job from the local state
+        setJobs(jobs.filter(job => job._id !== id));
+        console.log(`Job with ID: ${id} deleted successfully`);
+      } else {
+        console.error(`Failed to delete job with ID: ${id}. Status: ${response.status}`);
+      }
+    } catch (error) {
+      console.error("Error deleting job:", error);
+    }
+  };
 
   // Edit Jobs 
-  const editjob = () => {
+  const editjob = async (id, jobTitle, jobDescription, jobSalary, jobType, jobCompany) => {
+    try {
+      const response = await fetch(`${HOST_URL}api/jobs/updatejob/${id}`, {
+        method: 'PUT',  // Use PUT or PATCH here based on backend requirements
+        headers: {
+          'Content-Type': 'application/json',
+          'auth_token': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjcxMDNjNGU2ZTFkZDE2NmUxMGNjMzE2In0sImlhdCI6MTcyOTExNzI2Mn0.3eJbc01Yo-qeFCffFx-O77reE-iER8vQCb7yYPGbf3w',
+        },
+        body: JSON.stringify({ jobTitle, jobDescription, jobSalary, jobType, jobCompany }),
+      });
 
-  }
+      if (response.ok) {
+        setJobs(jobs.map(job =>
+          job._id === id
+            ? { ...job, jobTitle, jobDescription, jobSalary, jobType, jobCompany }
+            : job
+        ));
+      } else {
+        console.error(`Failed to edit job with ID: ${id}. Status: ${response.status}`);
+      }
+    } catch (error) {
+      console.error("Error editing job:", error);
+    }
+  };
+
+  // Fetch All Jobs
+  const getalljobs = async () => {
+    try {
+      const response = await fetch(`${HOST_URL}api/jobs/fetchalljobs`, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+          'auth_token': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjcxMDNjNGU2ZTFkZDE2NmUxMGNjMzE2In0sImlhdCI6MTcyOTExNzI2Mn0.3eJbc01Yo-qeFCffFx-O77reE-iER8vQCb7yYPGbf3w',
+        }
+      });
+
+      const res = await response.json();
+      console.log(res);
+      setJobs(res);  // Update state with fetched jobs
+    } catch (error) {
+      console.error("Error fetching jobs:", error);
+    }
+  };
 
   return (
-    <JobContext.Provider value={{ jobs, addJob, deletejob, editjob }}>
+    <JobContext.Provider value={{ jobs, addJob, deletejob, editjob, getalljobs }}>
       {props.children}
     </JobContext.Provider>
   );
-}
+};
 
 export default JobState;

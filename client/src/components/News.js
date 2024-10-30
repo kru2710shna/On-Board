@@ -55,6 +55,7 @@ export class News extends Component {
         this.update();
         // Update the iframe style after fetching articles
         this.updateIframeStyle();
+        window.addEventListener('resize', this.handleResize); 
         window.addEventListener('message', this.handleMessage); // Listen for messages from the parent
     }
 
@@ -67,6 +68,7 @@ export class News extends Component {
 
     componentWillUnmount() {
         window.removeEventListener('message', this.handleMessage); // Clean up listener
+        window.removeEventListener('resize', this.handleResize); 
     }
 
     handlePrevClick = async () => {
@@ -80,6 +82,12 @@ export class News extends Component {
         this.setState({ page: this.state.page + 1 });
         this.update();
     }
+    handleResize = () => {
+        if (this.iframeRef.current) {
+            this.iframeRef.current.style.width = '100%';
+            this.iframeRef.current.style.height = `${window.innerHeight}px`; // Set height dynamically
+        }
+    };
 
     render() {
         return (

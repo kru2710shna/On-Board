@@ -15,6 +15,9 @@ import News from './components/News';
 import Jobs from './components/Jobs';
 import JobState from './context/Jobs/JobsState';
 import AddJob from './components/AddJob'
+
+
+
 function App() {
     const [isDarkMode, setIsDarkMode] = useState(false);
     const [user, setUser] = useState({
