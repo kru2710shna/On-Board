@@ -1,21 +1,54 @@
 // src/components/SignUp.js
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 const SignUp = () => {
-    const [name, setName] = useState('');
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
-    const [confirmPassword, setConfirmPassword] = useState('');
-    const [userType, setUserType] = useState(''); // Added state for dropdown
+    const [credentials, setCredentials] = useState({
+        name: '', email: '', password: '', confirmPassword: '', userType: ''
+    });
 
-    const handleSubmit = (e) => {
+    const navigate = useNavigate(); // Initialize navigate function
+
+    const handleSubmit = async (e) => {
         e.preventDefault();
+        const { name, email, password, confirmPassword, userType } = credentials;
+
         if (password !== confirmPassword) {
-            alert("Passwords don't match!");
+            alert("Passwords do not match");
             return;
         }
 
-        alert('Sign up form submitted');
+        try {
+            const apiUrl = `${process.env.REACT_APP_API_BASE_URL || 'http://localhost:5001'}/api/${process.env.REACT_APP_AUTH_FOR_USER || 'user'}/${process.env.REACT_APP_CREATEUSER_TAG || 'createuser'}`;
+            console.log("Final API URL:", apiUrl);
+
+            const response = await fetch(apiUrl, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ name, email, password, type: userType }),
+            });
+
+            const res = await response.json();
+            console.log("Response:", res);
+
+            if (response.ok) {
+                alert('Thank you for joining On-Board');
+                navigate('/login');
+            } else {
+                console.error("Signup failed:", res.errors || res.error);
+                alert(`Signup failed: ${res.errors ? res.errors.map(err => err.msg).join(", ") : res.error}`);
+                throw new Error(res.error || "Signup failed");
+            }
+        } catch (error) {
+            console.error('Error:', error);
+            alert('Signup failed: ' + error.message);
+        }
+    };
+
+    const handleChange = (e) => {
+        setCredentials({ ...credentials, [e.target.name]: e.target.value });
     };
 
     return (
@@ -27,62 +60,67 @@ const SignUp = () => {
                             <h2 className="card-title text-center mb-4">Sign Up</h2>
                             <form onSubmit={handleSubmit}>
                                 <div className="mb-3">
-                                    <label htmlFor="name" className="form-label">Name:</label>
+                                    <label htmlFor="name">Name:</label>
                                     <input
                                         type="text"
                                         className="form-control"
                                         id="name"
-                                        value={name}
-                                        onChange={(e) => setName(e.target.value)}
+                                        name="name" // Add name attribute
+                                        value={credentials.name}
+                                        onChange={handleChange}
                                         required
                                     />
                                 </div>
                                 <div className="mb-3">
-                                    <label htmlFor="email" className="form-label">Email:</label>
+                                    <label htmlFor="email">Email:</label>
                                     <input
                                         type="email"
                                         className="form-control"
                                         id="email"
-                                        value={email}
-                                        onChange={(e) => setEmail(e.target.value)}
+                                        name="email" // Add name attribute
+                                        value={credentials.email}
+                                        onChange={handleChange}
                                         required
                                     />
                                 </div>
                                 <div className="mb-3">
-                                    <label htmlFor="password" className="form-label">Password:</label>
+                                    <label htmlFor="password">Password:</label>
                                     <input
                                         type="password"
                                         className="form-control"
                                         id="password"
-                                        value={password}
-                                        onChange={(e) => setPassword(e.target.value)}
+                                        name="password" // Add name attribute
+                                        value={credentials.password}
+                                        onChange={handleChange}
                                         required
                                     />
                                 </div>
                                 <div className="mb-3">
-                                    <label htmlFor="confirmPassword" className="form-label">Confirm Password:</label>
+                                    <label htmlFor="confirmPassword">Confirm Password:</label>
                                     <input
                                         type="password"
                                         className="form-control"
                                         id="confirmPassword"
-                                        value={confirmPassword}
-                                        onChange={(e) => setConfirmPassword(e.target.value)}
+                                        name="confirmPassword" // Add name attribute
+                                        value={credentials.confirmPassword}
+                                        onChange={handleChange}
                                         required
                                     />
                                 </div>
                                 <div className="mb-3">
-                                    <label htmlFor="userType" className="form-label">User Type:</label>
+                                    <label htmlFor="userType">User Type:</label>
                                     <select
                                         id="userType"
                                         className="form-control"
-                                        value={userType}
-                                        onChange={(e) => setUserType(e.target.value)}
+                                        name="userType"
+                                        value={credentials.userType}
+                                        onChange={handleChange}
                                         required
                                     >
                                         <option value="">Select user type</option>
-                                        <option value="student">Student</option>
-                                        <option value="employer">Recruiter</option>
-                                        <option value="employer">Comapny</option>
+                                        <option value="Student">Student</option>
+                                        <option value="Recruiter">Recruiter</option>
+                                        <option value="Company">Company</option>
                                     </select>
                                 </div>
                                 <button type="submit" className="btn btn-primary w-100">Sign Up</button>

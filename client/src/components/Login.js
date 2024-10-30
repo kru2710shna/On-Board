@@ -37,7 +37,7 @@ const Login = () => {
             console.error('Error:', error);
             alert('Login failed: ' + error.message);
         }
-    };
+    }; 
 
     const handleChange = (e) => {
         setCredentials({ ...credentials, [e.target.name]: e.target.value });
