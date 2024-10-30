@@ -8,13 +8,14 @@ const AddJob = () => {
     jobTitle: '',
     jobDescription: '',
     jobCompany: '',
-    jobSalary: ''
+    jobSalary: '',
+    jobType: ''
   });
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    addJob(jobDetails);  // Call addJob to add the job to the context
-    setJobDetails({ jobTitle: '', jobDescription: '', jobCompany: '', jobSalary: '' });
+    addJob(jobDetails);  
+    setJobDetails({ jobTitle: '', jobDescription: '', jobCompany: '', jobSalary: '',  jobType: ''});
   };
 
   const handleChange = (e) => {
@@ -72,6 +73,19 @@ const AddJob = () => {
           onChange={handleChange}
           placeholder="Enter salary amount"
           value={jobDetails.jobSalary}
+          required
+        />
+      </div>
+      <div className="mb-3">
+        <label htmlFor="jobType" className="form-label">Type</label>
+        <input
+          type="text"
+          className="form-control"
+          id="jobType"
+          name="jobType"
+          onChange={handleChange}
+          placeholder="Full-Time/Part-Time/Intern"
+          value={jobDetails.jobType}
           required
         />
       </div>
