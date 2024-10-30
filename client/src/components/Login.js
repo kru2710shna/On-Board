@@ -1,22 +1,46 @@
 // src/components/Login.js
 import React, { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
-// import { useAuth } from './AuthContext';
+import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 const Login = () => {
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
+    const [credentials, setCredentials] = useState({ email: "", password: "" });
     const navigate = useNavigate();
 
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            alert('Login form submitted');
-            navigate('/body');
+            const apiUrl = `${String(process.env.REACT_APP_API_BASE_URL)}/api/${String(process.env.REACT_APP_AUTH_FOR_USER)}/${String(process.env.REACT_APP_LOGIN_FOR_USER)}`;
+            console.log("Final API URL:", apiUrl); // Log the final URL to confirm
+    
+            const response = await fetch(apiUrl, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ email: credentials.email, password: credentials.password }),
+            });
+    
+            const res = await response.json();
+            console.log("Response:", res);
+            if (res.Success){
+                navigate('/body');
+
+            }
+    
+            if (!response.ok) {
+                throw new Error(res.error || "Login failed");
+            }
+    
+            alert('Logged In Successfully');
         } catch (error) {
             console.error('Error:', error);
-            alert('Login failed');
+            alert('Login failed: ' + error.message);
         }
+    };
+
+    const handleChange = (e) => {
+        setCredentials({ ...credentials, [e.target.name]: e.target.value });
     };
 
     return (
@@ -33,8 +57,9 @@ const Login = () => {
                                         type="email"
                                         className="form-control"
                                         id="email"
-                                        value={email}
-                                        onChange={(e) => setEmail(e.target.value)}
+                                        name="email"
+                                        value={credentials.email}
+                                        onChange={handleChange}
                                         required
                                     />
                                 </div>
@@ -44,12 +69,13 @@ const Login = () => {
                                         type="password"
                                         className="form-control"
                                         id="password"
-                                        value={password}
-                                        onChange={(e) => setPassword(e.target.value)}
+                                        name="password"
+                                        value={credentials.password}
+                                        onChange={handleChange}
                                         required
                                     />
                                 </div>
-                                
+
                                 <button type="submit" className="btn btn-primary w-100">Login</button>
                             </form>
                             <div className="mt-3 text-center">
