@@ -15,7 +15,7 @@ import News from './components/News';
 import Jobs from './components/Jobs';
 import JobState from './context/Jobs/JobsState';
 import AddJob from './components/AddJob'
-
+import ChatBot from './components/ChatBot';
 
 
 function App() {
@@ -75,6 +75,7 @@ function App() {
                         <Route path="/logout" element={<Logout />} />
                         <Route path="/news" element={<News isDarkMode={isDarkMode} />} />
                         <Route path="/AddJob" element={<AddJob />} />
+                        <Route path="/ChatBot" element={<ChatBot isDarkMode={isDarkMode} />} />
                     </Routes>
                 </Router>
             </div>

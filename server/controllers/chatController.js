@@ -5,8 +5,7 @@ const getChatResponse = async (req, res) => {
     const { userInput } = req.body;
     const openaiApiKey = process.env.OPEN_AI_API_KEY;
 
-    // Simplified prompt without repeating the question context
-    const fullPrompt = `Provide specific information about job opportunities, popular fields, and job market trends in the USA.`;
+    const fullPrompt = `The user is asking for information on jobs in the USA. Provide specific information about popular job sectors, high-demand skills, and the current job market in the USA. Format the response with line breaks for better readability. The user's question was: "${userInput}"`;
 
     try {
         const response = await axios.post(
@@ -28,7 +27,11 @@ const getChatResponse = async (req, res) => {
         res.json({ botResponse });
     } catch (error) {
         console.error("Error in OpenAI API call:", error.response ? error.response.data : error.message);
-        res.status(500).json({ error: "An error occurred with OpenAI API." });
+        
+        // Send back a detailed error response for debugging
+        res.status(500).json({ error: error.response ? error.response.data : "An unknown error occurred with OpenAI API." });
     }
 };
+
+
 module.exports = { getChatResponse };
