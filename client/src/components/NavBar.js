@@ -4,9 +4,10 @@ import AuthContext from '../context/Auth/authContext';
 import members from './MemberData';
 import '../navbar.css';
 
-
 const NavBar = ({ isDarkMode, toggleDarkMode }) => {
-    const { isLoggedIn, logout } = useContext(AuthContext); // Access isLoggedIn and logout
+
+    const { isLoggedIn } = useContext(AuthContext); // Access isLoggedIn and logout
+    const navigate = useNavigate();
 
     const changeTitleInIframe = (newTitle) => {
         const iframe = document.getElementById('news-iframe');
@@ -14,15 +15,10 @@ const NavBar = ({ isDarkMode, toggleDarkMode }) => {
             iframe.contentWindow.postMessage({ title: newTitle }, 'On-Board NewsBreak');
         }
     };
-    const navigate = useNavigate();
 
-    console.log("Navbar isLoggedIn:", isLoggedIn);
-
-    const handleLogout = () => {
-        logout(); // Call logout from AuthContext
-        navigate('/'); // Redirect to home after logout
+    const goToLogoutPage = () => {
+        navigate('/logout'); 
     };
-
 
     return (
         <nav className={`navbar navbar-expand-lg ${isDarkMode ? 'navbar-dark bg-dark' : 'navbar-light bg-light'}`}>
@@ -64,19 +60,20 @@ const NavBar = ({ isDarkMode, toggleDarkMode }) => {
                         <input className="form-check-input" type="checkbox" role="switch" id="darkModeSwitch" checked={isDarkMode} onChange={toggleDarkMode} />
                         <label className="form-check-label ms-1 me-3" htmlFor="darkModeSwitch">{isDarkMode ? 'Light Mode' : 'Dark Mode'}</label>
                     </div>
-                    <li className="nav-item me-3">
-                        <Link className="nav-link active" to="/profile">Profile</Link>
-                    </li>
-                    <li className="nav-item me-3">
+                    <ul className="navbar-nav mb-2 mb-lg-0">
                         {isLoggedIn ? (
-                            <button className="nav-link btn btn-link" onClick={handleLogout}>Logout</button>
+                            <li className="nav-item">
+                                <button className="nav-link btn btn-link" onClick={goToLogoutPage} >Log-Out</button>
+                            </li>
                         ) : (
-                            <Link className="nav-link" to="/login">Login</Link>
+                            <li className="nav-item">
+                                <Link className="nav-link" to="/login">Log-In</Link>
+                            </li>
                         )}
-                    </li>
+                    </ul>
                 </div>
             </div>
-        </nav>
+        </nav >
     );
 };
 

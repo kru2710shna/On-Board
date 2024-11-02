@@ -1,18 +1,18 @@
-// src/components/Login.js
-import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
-import { useNavigate } from 'react-router-dom';
+import React, { useState, useContext } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import AuthContext from '../context/Auth/authContext';
 
 const Login = () => {
     const [credentials, setCredentials] = useState({ email: "", password: "" });
     const navigate = useNavigate();
+    const { login } = useContext(AuthContext); // Access login from AuthContext
 
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
             const apiUrl = `${String(process.env.REACT_APP_API_BASE_URL)}/api/${String(process.env.REACT_APP_AUTH_FOR_USER)}/${String(process.env.REACT_APP_LOGIN_FOR_USER)}`;
             console.log("Final API URL:", apiUrl); // Log the final URL to confirm
-    
+
             const response = await fetch(apiUrl, {
                 method: 'POST',
                 headers: {
@@ -20,19 +20,19 @@ const Login = () => {
                 },
                 body: JSON.stringify({ email: credentials.email, password: credentials.password }),
             });
-    
+
             const res = await response.json();
             console.log("Response:", res);
-            if (res.Success){
-                navigate('/Dashboard');
 
+            if (res.Success) {
+                login('user'); // Update AuthContext with login state
+                alert('Logged In Successfully');
+                navigate('/Dashboard'); // Redirect to Dashboard or any other page
             }
-    
+
             if (!response.ok) {
                 throw new Error(res.error || "Login failed");
             }
-    
-            alert('Logged In Successfully');
         } catch (error) {
             console.error('Error:', error);
             alert('Login failed: ' + error.message);

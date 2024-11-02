@@ -16,6 +16,7 @@ import Jobs from './components/Jobs';
 import JobState from './context/Jobs/JobsState';
 import AddJob from './components/AddJob'
 import ChatBot from './components/ChatBot';
+import AuthState from './context/Auth/AuthState';
 import Dashboard from './components/Dashboard';
 
 
@@ -59,28 +60,31 @@ function App() {
     };
 
     return (
-        <JobState>
-            <div className={isDarkMode ? 'bg-dark text-white' : 'bg-light text-dark'}>
-                <Router>
-                    <NavBar isDarkMode={isDarkMode} toggleDarkMode={toggleDarkMode} />
-                    <Routes>
-                        <Route exact path='/' element={<HomePage isDarkMode={isDarkMode} />} />
-                        <Route path="/signup" element={<SignUp isDarkMode={isDarkMode} />} />
-                        <Route path="/login" element={<Login isDarkMode={isDarkMode}  />} />
-                        <Route path="/about" element={<AboutPage isDarkMode={isDarkMode} />} />
-                        <Route path="/member/:name" element={<MemberPage isDarkMode={isDarkMode} />} />
-                        <Route path="/profile" element={<Profile user={user} onEdit={() => { }} />} />
-                        <Route path="/jobs" element={<Jobs isDarkMode={isDarkMode} />} />
-                        <Route path="/edit-profile" element={<EditProfile user={user} onSave={handleProfileSave} />} />
-                        <Route path="/logout" element={<Logout isDarkMode={isDarkMode} />} />
-                        <Route path="/news" element={<News isDarkMode={isDarkMode} />} />
-                        <Route path="/AddJob" element={<AddJob isDarkMode={isDarkMode} />} />
-                        <Route path="/ChatBot" element={<ChatBot isDarkMode={isDarkMode} />} />
-                        <Route path='/Dashboard' element={<Dashboard isDarkMode={isDarkMode} />} />
-                    </Routes>
-                </Router>
-            </div>
-        </JobState>
+        <AuthState>
+            <JobState>
+                <div className={isDarkMode ? 'bg-dark text-white' : 'bg-light text-dark'}>
+                    <Router>
+                        <NavBar isDarkMode={isDarkMode} toggleDarkMode={toggleDarkMode} />
+                        <Routes>
+                            <Route exact path='/' element={<HomePage isDarkMode={isDarkMode} />} />
+                            <Route path="/signup" element={<SignUp isDarkMode={isDarkMode} />} />
+                            <Route path="/login" element={<Login isDarkMode={isDarkMode} />} />
+                            <Route path="/logout" element={<Logout isDarkMode={isDarkMode} />} />
+                            <Route path="/about" element={<AboutPage isDarkMode={isDarkMode} />} />
+                            <Route path="/member/:name" element={<MemberPage isDarkMode={isDarkMode} />} />
+                            <Route path="/profile" element={<Profile user={user} onEdit={() => { }} />} />
+                            <Route path="/jobs" element={<Jobs isDarkMode={isDarkMode} />} />
+                            <Route path="/edit-profile" element={<EditProfile user={user} onSave={handleProfileSave} />} />
+                            <Route path="/logout" element={<Logout isDarkMode={isDarkMode} />} />
+                            <Route path="/news" element={<News isDarkMode={isDarkMode} />} />
+                            <Route path="/AddJob" element={<AddJob isDarkMode={isDarkMode} />} />
+                            <Route path="/ChatBot" element={<ChatBot isDarkMode={isDarkMode} />} />
+                            <Route path='/Dashboard' element= {<Dashboard />} />
+                        </Routes>
+                    </Router>
+                </div>
+            </JobState>
+        </AuthState>
     );
 }
 

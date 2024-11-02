@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import AuthContext from './authContext';
 
+
 const AuthState = ({ children }) => {
   const [userType, setUserType] = useState(null);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -22,11 +23,12 @@ const AuthState = ({ children }) => {
   };
 
   const logout = () => {
+    console.log("Logging out...");
     localStorage.removeItem('userType');
     setUserType(null);
     setIsLoggedIn(false);
-    console.log("Logged out:", isLoggedIn); // Log to check logout status
-  };
+    console.log("Logged out, isLoggedIn:", isLoggedIn); // Check if this updates
+};
 
   return (
     <AuthContext.Provider value={{ userType, isLoggedIn, login, logout }}>
