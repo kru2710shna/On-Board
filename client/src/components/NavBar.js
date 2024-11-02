@@ -1,19 +1,27 @@
-// src/components/NavBar.js
+import React, { useContext } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import AuthContext from '../context/Auth/authContext';
 import members from './MemberData';
-import { Link } from 'react-router-dom';
-import React from 'react';
 import '../navbar.css';
 
 
 const NavBar = ({ isDarkMode, toggleDarkMode }) => {
+    const { isLoggedIn, logout } = useContext(AuthContext); // Access isLoggedIn and logout
 
     const changeTitleInIframe = (newTitle) => {
-        const iframe = document.getElementById('news-iframe'); // Ensure this ID matches the iframe in the parent
+        const iframe = document.getElementById('news-iframe');
         if (iframe) {
-            iframe.contentWindow.postMessage({ title: newTitle }, 'On-Board NewsBreak'); // Send message to the iframe to change the title
+            iframe.contentWindow.postMessage({ title: newTitle }, 'On-Board NewsBreak');
         }
     };
+    const navigate = useNavigate();
 
+    console.log("Navbar isLoggedIn:", isLoggedIn);
+
+    const handleLogout = () => {
+        logout(); // Call logout from AuthContext
+        navigate('/'); // Redirect to home after logout
+    };
 
 
     return (
@@ -60,9 +68,12 @@ const NavBar = ({ isDarkMode, toggleDarkMode }) => {
                         <Link className="nav-link active" to="/profile">Profile</Link>
                     </li>
                     <li className="nav-item me-3">
-                        <Link className="nav-link active" to="/login">Login</Link>
+                        {isLoggedIn ? (
+                            <button className="nav-link btn btn-link" onClick={handleLogout}>Logout</button>
+                        ) : (
+                            <Link className="nav-link" to="/login">Login</Link>
+                        )}
                     </li>
-
                 </div>
             </div>
         </nav>

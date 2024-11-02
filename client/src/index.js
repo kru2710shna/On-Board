@@ -1,8 +1,13 @@
-// src/index.js
 import React from 'react';
-import { createRoot } from 'react-dom/client'; // Import createRoot from react-dom
+import { createRoot } from 'react-dom/client';
 import App from './App';
+import AuthState from './context/Auth/AuthState';
 
 const container = document.getElementById('root');
-const root = createRoot(container); // Create a root
-root.render(<App />); // Render the App
+const root = createRoot(container);
+
+root.render(
+  <AuthState>
+    <App />
+  </AuthState>
+);

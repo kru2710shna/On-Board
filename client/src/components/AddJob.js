@@ -11,6 +11,7 @@ const AddJob = () => {
     jobSalary: '',
     jobType: ''
   });
+  
 
   const handleSubmit = (e) => {
     e.preventDefault();

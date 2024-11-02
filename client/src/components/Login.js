@@ -24,7 +24,7 @@ const Login = () => {
             const res = await response.json();
             console.log("Response:", res);
             if (res.Success){
-                navigate('/body');
+                navigate('/Dashboard');
 
             }
     

@@ -1,15 +1,21 @@
 // context/Jobs/JobState.js
-import React, { useState } from "react";
+import React, { useState ,useContext } from "react";
 import JobContext from './jobsContext';
+import AuthContext from '../Auth/authContext'; 
 
 const JobState = (props) => {
   let HOST_URL = String(process.env.REACT_APP_API_BASE_URL);
   const initialJobs = [];
   const [jobs, setJobs] = useState(initialJobs);
+  const { userType } = useContext(AuthContext); 
 
   // Add Jobs 
   const addJob = async (newJob) => {
     const { jobTitle, jobDescription, jobSalary, jobType, jobCompany } = newJob;
+    if (userType !== 'Company') {
+      console.log("Not authorized to add jobs.");
+      return;
+    }
     try {
       const response = await fetch(`${HOST_URL}api/${String(process.env.REACT_APP_JOBS_TAG)}/${String(process.env.REACT_APP_ADDJOBS_TAG)}`, {
         method: 'POST',
@@ -25,6 +31,7 @@ const JobState = (props) => {
         throw new Error(`Failed to add job: ${response.statusText}`);
       }
 
+
       // Parse response to confirm new job creation
       const addedJob = await response.json();
       console.log("Job added successfully:", addedJob);
@@ -38,6 +45,10 @@ const JobState = (props) => {
 
   // Delete Jobs
   const deletejob = async (id) => {
+    if (userType !== 'Company') {
+      console.log("Not authorized to add jobs.");
+      return;
+    }
     try {
       const response = await fetch(`${HOST_URL}api/${String(process.env.REACT_APP_JOBS_TAG)}/${String(process.env.REACT_APP_DELETE_TAG)}/${id}`, {
         method: 'DELETE',
@@ -61,6 +72,7 @@ const JobState = (props) => {
 
   // Edit Jobs 
   const editjob = async (id, jobTitle, jobDescription, jobSalary, jobType, jobCompany) => {
+
     try {
       const response = await fetch(`${HOST_URL}api/${String(process.env.REACT_APP_JOBS_TAG)}/${String(process.env.REACT_APP_UPDATE_TAG)}/${id}`, {
         method: 'PUT',  // Use PUT or PATCH here based on backend requirements

@@ -1,15 +1,18 @@
 // src/components/Logout.js
-import React from 'react';
+import React , {useContext}from 'react';
 import { useNavigate } from 'react-router-dom';
+import AuthContext from '../context/Auth/authContext';
 
 const Logout = (/* { handleLogout } */) => {
     const navigate = useNavigate();
+    const { logout } = useContext(AuthContext);
 
     const confirmLogout = () => {
-        // handleLogout(); // Commenting out the actual logout function
+        logout(); // Call logout to update auth state
         navigate('/'); // Redirect after logout
-        alert('Logged out successfully'); // Temporary alert to simulate logout
+        alert('Logged out successfully');
     };
+
 
     return (
         <div className="container mt-5">

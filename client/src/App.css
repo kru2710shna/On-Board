@@ -52,3 +52,211 @@
 .text-dark {
   color: #212529 !important; /* Dark text for light mode */
 }
+
+/* Dashboard General Styles */
+.dashboard-section {
+  margin-top: 2rem;
+}
+
+.dashboard-section h2 {
+  font-size: 1.5rem;
+  color: #333;
+  border-bottom: 2px solid #007bff;
+  padding-bottom: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+/* General Card Styling */
+.job-card {
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease;
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  border-radius: 8px;
+  background-color: #ffffff;
+}
+
+.job-card:hover {
+  transform: scale(1.05);
+}
+
+/* Logo Styling */
+.job-logo {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  margin-bottom: 10px;
+}
+
+/* Text Styling */
+.company-name {
+  font-size: 0.9rem;
+  color: #777;
+  margin-bottom: 0.5rem;
+  font-weight: bold;
+  text-align: center;
+}
+
+.card-title {
+  font-size: 1.25rem;
+  color: #007bff;
+  text-align: center;
+  font-weight: bold;
+}
+
+.card-text {
+  color: #555;
+  font-size: 0.95rem;
+  text-align: center;
+  margin-bottom: 1rem;
+}
+
+.toggle-link {
+  color: #007bff;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+/* Requirements List */
+.requirements-list {
+  padding-left: 1rem;
+  list-style-type: disc;
+  margin-bottom: 1rem;
+  font-size: 0.9rem;
+}
+
+/* Apply Button */
+.apply-button {
+  margin-top: 1rem;
+  width: 100%;
+  background-color: #007bff;
+  color: #ffffff;
+  border: none;
+  padding: 0.5rem;
+  border-radius: 5px;
+  font-size: 1rem;
+  font-weight: bold;
+  transition: background-color 0.3s ease;
+}
+
+.apply-button:hover {
+  background-color: #0056b3;
+}
+
+/* Pie Chart */
+.job-market {
+  width: 100%;
+  height: 150px;
+  margin: 1rem 0;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .card-title {
+      font-size: 1.1rem;
+  }
+
+  .card-text {
+      font-size: 0.85rem;
+  }
+
+  .apply-button {
+      font-size: 0.9rem;
+  }
+}
+
+/* General Card Styling */
+.event-card {
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease;
+  padding: 1rem;
+  border-radius: 8px;
+  background-color: #ffffff;
+}
+
+.event-card:hover {
+  transform: scale(1.05);
+}
+
+/* Text Styling */
+.card-title {
+  font-size: 1.25rem;
+  color: #007bff;
+  font-weight: bold;
+  text-align: center;
+  margin-bottom: 0.5rem;
+}
+
+.card-text {
+  color: #555;
+  font-size: 0.95rem;
+  margin-bottom: 1rem;
+}
+
+.join-button {
+  width: 100%;
+  background-color: #28a745;
+  color: #ffffff;
+  border: none;
+  padding: 0.5rem;
+  border-radius: 5px;
+  font-size: 1rem;
+  font-weight: bold;
+  transition: background-color 0.3s ease;
+}
+
+.join-button:hover {
+  background-color: #218838;
+}
+/* General Card Styling */
+.update-card {
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease;
+  padding: 1rem;
+  border-radius: 8px;
+  background-color: #ffffff;
+  margin-bottom: 1rem;
+}
+
+.update-card:hover {
+  transform: scale(1.05);
+}
+
+/* Text Styling */
+.card-title {
+  font-size: 1.25rem;
+  color: #007bff;
+  font-weight: bold;
+  text-align: center;
+  margin-bottom: 0.5rem;
+}
+
+.card-text {
+  color: #555;
+  font-size: 0.95rem;
+  margin-bottom: 1rem;
+}
+
+/* Toggle Button Styling */
+.toggle-button {
+  width: 100%;
+  padding: 0.5rem;
+  font-size: 1rem;
+  font-weight: bold;
+  border: none;
+  border-radius: 5px;
+  transition: background-color 0.3s ease;
+  color: #ffffff;
+  background-color: #007bff; /* Default blue color */
+}
+
+.toggle-button.updated {
+  background-color: #28a745; /* Green color when updated */
+}
+
+.toggle-button:hover {
+  opacity: 0.9;
+}
+

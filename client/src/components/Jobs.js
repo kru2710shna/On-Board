@@ -3,9 +3,12 @@ import React, { useContext, useEffect, useRef, useState } from 'react';
 import JobContext from '../context/Jobs/jobsContext';
 import JobsItem from './JobsItem';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import AuthContext from '../context/Auth/authContext';
 
 const Jobs = () => {
   const context = useContext(JobContext);
+  const authContext = useContext(AuthContext);
+  const { userType } = authContext;
   const { jobs, getalljobs, addJob, editjob } = context;
 
   const [currentJob, setCurrentJob] = useState(null);
@@ -62,10 +65,14 @@ const Jobs = () => {
     <div className="container my-4">
       <div className="d-flex justify-content-between align-items-center">
         <h1>Available Jobs</h1>
-        <button className="btn btn-primary" onClick={() => addRef.current.click()}>Add Job</button>
-        <button type="button" ref={editRef} className="btn btn-primary d-none" data-bs-toggle="modal" data-bs-target="#editJobModal">
-          Launch Edit Modal
-        </button>
+        {userType === 'Company' && (
+          <button className="btn btn-primary" onClick={() => addRef.current.click()}>Add Job</button>
+        )}
+        {userType !== 'Student' && (
+          <button type="button" ref={editRef} className="btn btn-primary d-none" data-bs-toggle="modal" data-bs-target="#editJobModal">
+            Launch Edit Modal
+          </button>
+        )}
         <button type="button" ref={addRef} className="btn btn-primary d-none" data-bs-toggle="modal" data-bs-target="#addJobModal">
           Launch Add Modal
         </button>
