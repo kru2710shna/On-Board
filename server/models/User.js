@@ -7,13 +7,13 @@ const userSchema = new mongoose.Schema({
     type: String,
     required: true
   },
-  email: {  
+  email: {
     type: String,
     required: true,
     unique: true
   },
   password: {
-    type: String, 
+    type: String,
     required: true
   },
   type: {
@@ -23,7 +23,15 @@ const userSchema = new mongoose.Schema({
   date: {
     type: Date,
     default: Date.now
-  }
+  },
+  isPremiumUser: {
+    type: Boolean,
+    default: false
+  },
+  trialStartTime: {
+    type: Date,
+    default: null
+  },
 });
 
 // Create the User model

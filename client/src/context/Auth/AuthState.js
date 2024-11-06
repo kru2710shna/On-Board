@@ -7,14 +7,16 @@ const AuthState = ({ children }) => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     // Check if userType is in local storage to set isLoggedIn
     const storedUserType = localStorage.getItem('userType');
     if (storedUserType) {
       setUserType(storedUserType);
       setIsLoggedIn(true);
     }
+    
   }, []);
-
+  console.log("Initial isLoggedIn:", isLoggedIn);
   const login = (type) => {
     localStorage.setItem('userType', type);
     setUserType(type);

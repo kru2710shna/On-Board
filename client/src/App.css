@@ -260,3 +260,7 @@
   opacity: 0.9;
 }
 
+
+.bg-dark.text-white h2, .bg-dark.text-white h1 {
+  color: #ffffff;
+}

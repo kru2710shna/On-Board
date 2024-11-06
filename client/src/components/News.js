@@ -1,5 +1,5 @@
-import React, { Component } from 'react'
-import PropTypes from 'prop-types'
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 
 const apiKey = process.env.REACT_APP_NEWS_API_KEY;
 
@@ -35,7 +35,6 @@ export class News extends Component {
         this.setState({ loading: true });
         let data = await fetch(url);
         let parsedData = await data.json();
-        console.log('Parsed Data:', parsedData);
         this.setState({
             articles: parsedData.articles,
             totalResults: parsedData.totalResults,
@@ -44,49 +43,38 @@ export class News extends Component {
     }
 
     updateIframeStyle = () => {
-        if (this.iframeRef.current) {
+        if (this.iframeRef.current && this.iframeRef.current.contentWindow) {
             const mode = this.props.isDarkMode ? 'dark' : 'light';
             this.iframeRef.current.contentWindow.postMessage({ darkMode: mode }, '*'); // Send dark mode state to iframe
         }
     };
 
     componentDidMount() {
-        // Fetch articles
         this.update();
-        // Update the iframe style after fetching articles
-        this.updateIframeStyle();
         window.addEventListener('resize', this.handleResize); 
-        window.addEventListener('message', this.handleMessage); // Listen for messages from the parent
+        window.addEventListener('message', this.handleMessage);
     }
 
     componentDidUpdate(prevProps) {
-        // Update iframe style if dark mode changes
         if (prevProps.isDarkMode !== this.props.isDarkMode) {
             this.updateIframeStyle();
         }
     }
 
     componentWillUnmount() {
-        window.removeEventListener('message', this.handleMessage); // Clean up listener
+        window.removeEventListener('message', this.handleMessage);
         window.removeEventListener('resize', this.handleResize); 
     }
 
-    handlePrevClick = async () => {
-        console.log("Previous");
-        this.setState({ page: this.state.page - 1 });
-        this.update();
-    }
-
-    handleNextClick = async () => {
-        console.log("Next");
-        this.setState({ page: this.state.page + 1 });
-        this.update();
-    }
     handleResize = () => {
         if (this.iframeRef.current) {
             this.iframeRef.current.style.width = '100%';
-            this.iframeRef.current.style.height = `${window.innerHeight}px`; // Set height dynamically
+            this.iframeRef.current.style.height = `${window.innerHeight}px`;
         }
+    };
+
+    handleIframeLoad = () => {
+        this.updateIframeStyle();
     };
 
     render() {
@@ -94,9 +82,10 @@ export class News extends Component {
             <>
                 <iframe 
                     id="news-iframe" 
-                    title="News Content" // Add a title for accessibility
+                    title="News Content"
                     src="http://localhost:3001" 
                     ref={this.iframeRef} 
+                    onLoad={this.handleIframeLoad} // Ensure iframe is loaded before messaging
                     height="1000" 
                     width="1680" 
                     frameBorder="0" 
@@ -104,7 +93,7 @@ export class News extends Component {
                     style={{ backgroundColor: this.props.isDarkMode ? '#333' : '#fff' }} 
                 />
             </>
-        )
+        );
     }
 }
 

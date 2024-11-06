@@ -15,18 +15,20 @@ var fetchUser = require('../middlewares/fetchUser')
 
 // Route-1 Create User - POST "/api/user/createuser" - No Login Required 
 router.post('/createuser', [
-  body('name', 'Name must be at least 5 characters').isLength({ min: 3 }),
+  body('name', 'Name must be at least 3 characters').isLength({ min: 3 }),
   body('password', 'Password must be at least 6 characters').isLength({ min: 5 }),
   body('email', 'Enter a valid email').isEmail(),
   body('type').isIn(['Student', 'Recruiter', 'Company']).withMessage('Type must be either Student, Recruiter, or Company'),
 ], async (req, res) => {
+
   // Handle Bad Request
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
     return res.status(400).json({ errors: errors.array() });
   }
+
   try {
-    // Check wheather user with sam email exist or not 
+    // Check wheather user with same email exist or not 
     let user = await User.findOne({ email: req.body.email })
 
     if (user) {
@@ -43,6 +45,7 @@ router.post('/createuser', [
       email: req.body.email,
       type: req.body.type
     })
+
     const data = {
       user: {
         id: user.id
@@ -100,7 +103,7 @@ router.post('/login', [
   }
 })
 
-// Route-3 Get All User - POST "/api/user/getuserdata" - Login Required 
+// Route-3 Get All User - POST "/api/user/getuser" - Login Required 
 router.post('/getuser', fetchUser, async (req, res) => {
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
@@ -118,8 +121,18 @@ router.post('/getuser', fetchUser, async (req, res) => {
     res.status(500).send("Internal Server Error")
 
   }
-
 })
+
+// Route-4 Get get premium status of the use - GET "/api/user/premium-status" - Login Required 
+router.get('/premium-status', fetchUser, async (req, res) => {
+  try {
+    const user = await User.findById(req.user.id); // Assuming fetchUser middleware sets req.user
+    res.json({ isPremiumUser: user.isPremiumUser });
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send('Server error');
+  }
+});
 
 
 module.exports = router

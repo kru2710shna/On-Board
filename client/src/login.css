@@ -1,17 +1,48 @@
-/* src/components/Login.css */
-
-body.dark-mode {
-    background-color: #121212; /* Dark background color */
-    color: #ffffff; /* Light text color */
+/* Center the login page with a full-height layout */
+.login-page {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #f8f9fa;
 }
 
-.card.bg-dark {
-    background-color: #1e1e1e; /* Dark card background */
-    border: none; /* Remove border */
+.login-container {
+    width: 100%;
+    max-width: 800px;
+    padding: 20px;
 }
 
-/* Optional: Style the button for dark mode */
-.btn-secondary {
-    background-color: #3a3a3a; /* Darker button color */
-    color: #ffffff; /* Light text color */
+.login-card {
+    padding: 40px;
+    border-radius: 10px;
+}
+
+.login-form .form-control {
+    border-radius: 5px;
+    padding: 15px;
+    font-size: 1.1rem;
+}
+
+.login-form .form-control-lg {
+    font-size: 1.25rem;
+}
+
+.btn-lg {
+    padding: 12px;
+    font-size: 1.2rem;
+}
+
+.footer {
+    margin-top: 20px;
+    font-size: 0.9rem;
+}
+
+.footer .link-primary {
+    color: #007bff;
+    text-decoration: none;
+}
+
+.footer .link-primary:hover {
+    text-decoration: underline;
 }

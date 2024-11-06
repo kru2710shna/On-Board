@@ -1,0 +1,107 @@
+/* General Container Styling for Dark Mode */
+.bg-dark .dashboard-container {
+    background-color: #1c1c1c !important;
+    color: #e0e0e0 !important;
+}
+
+/* Main Title Styling */
+.dashboard-title {
+    font-size: 2.5rem;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 1rem;
+}
+
+.bg-dark .dashboard-title {
+    color: #ffffff;
+    text-shadow: 1px 1px 5px rgba(0, 0, 0, 0.5);
+}
+
+/* Section Titles */
+.section-title {
+    font-size: 1.8rem;
+    margin-bottom: 1rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 2px solid currentColor;
+    font-weight: 600;
+}
+
+.bg-dark .section-title {
+    color: #ffffff;
+    text-shadow: 1px 1px 5px rgba(0, 0, 0, 0.3);
+}
+
+/* Card Styling */
+.card {
+    border-radius: 10px;
+    transition: all 0.3s ease;
+    overflow: hidden;
+}
+
+.job-card, .event-card, .update-card {
+    padding: 15px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.job-card:hover, .event-card:hover, .update-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+}
+
+/* Dark Mode Specific Adjustments for Cards */
+.bg-dark .job-card,
+.bg-dark .event-card,
+.bg-dark .update-card {
+    background-color: #2d2d2d !important;
+    color: #f1f1f1 !important;
+    border: 1px solid #444;
+}
+
+/* Text Color Adjustments for Dark Mode */
+.bg-dark .card-text, .bg-dark .section-title, .bg-dark .dashboard-title {
+    color: #f8f9fa !important;
+}
+
+.bg-dark .text-muted {
+    color: #b0b0b0 !important;
+}
+
+/* Link Styling in Dark Mode */
+.bg-dark .card a, .bg-dark .section-title a {
+    color: #4da3ff;
+}
+
+.bg-dark .card a:hover, .bg-dark .section-title a:hover {
+    color: #80caff;
+    text-decoration: underline;
+}
+
+/* Improve Readability in Dark Mode */
+.bg-dark .card-text {
+    font-size: 1rem;
+    line-height: 1.5;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+    .dashboard-container {
+        padding: 15px;
+    }
+
+    .dashboard-title {
+        font-size: 2rem;
+    }
+
+    .section-title {
+        font-size: 1.4rem;
+    }
+}
+
+/* Custom Spacing and Layout */
+.dashboard-section {
+    margin-top: 2rem;
+    padding: 1.5rem;
+    background-color: rgba(255, 255, 255, 0.05);
+    border-radius: 8px;
+}

@@ -5,6 +5,8 @@ const express = require('express');
 
 const fetchUser =(req,res, next) => {
 
+
+    
     //get the user from the jwd toekn  and add it to project
     const token = req.header('auth_token')
     if (!token){
@@ -14,6 +16,7 @@ const fetchUser =(req,res, next) => {
         console.log('Token received:', token);
         const data = jwt.verify(token, process.env.JWT_SECRET)
         req.user = data.user
+        req.userType = data.user.type;
         next();
     }
     catch (err) {

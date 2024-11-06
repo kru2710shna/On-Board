@@ -1,5 +1,5 @@
 import './App.css';
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import HomePage from './components/HomePage';
 import NavBar from './components/NavBar';
@@ -8,7 +8,6 @@ import MemberPage from './components/MemberPage';
 import Login from './components/Login';
 import SignUp from './components/SignUp';
 import Logout from './components/Logout';
-
 import Profile from './components/Profile';
 import EditProfile from './components/EditProfile';
 import News from './components/News';
@@ -18,10 +17,13 @@ import AddJob from './components/AddJob'
 import ChatBot from './components/ChatBot';
 import AuthState from './context/Auth/AuthState';
 import Dashboard from './components/Dashboard';
-
+import AuthContext from './context/Auth/authContext';
 
 function App() {
     const [isDarkMode, setIsDarkMode] = useState(false);
+    const { isLoggedIn } = useContext(AuthContext);
+
+
     const [user, setUser] = useState({
         name: "Krushna Thakkar",
         photoUrl: "https://via.placeholder.com/150",
@@ -40,9 +42,10 @@ function App() {
 
     // Load the user's preference from localStorage
     useEffect(() => {
+        console.log("Navbar visibility - isLoggedIn:", isLoggedIn); // Log to confirm isLoggedIn value
         const savedMode = localStorage.getItem('darkMode') === 'true';
         setIsDarkMode(savedMode);
-    }, []);
+    }, [isLoggedIn]);
 
     const toggleDarkMode = () => {
         const newMode = !isDarkMode;
@@ -64,7 +67,7 @@ function App() {
             <JobState>
                 <div className={isDarkMode ? 'bg-dark text-white' : 'bg-light text-dark'}>
                     <Router>
-                        <NavBar isDarkMode={isDarkMode} toggleDarkMode={toggleDarkMode} />
+                        {isLoggedIn && <NavBar isDarkMode={isDarkMode} toggleDarkMode={toggleDarkMode} />}
                         <Routes>
                             <Route exact path='/' element={<HomePage isDarkMode={isDarkMode} />} />
                             <Route path="/signup" element={<SignUp isDarkMode={isDarkMode} />} />
@@ -79,7 +82,7 @@ function App() {
                             <Route path="/news" element={<News isDarkMode={isDarkMode} />} />
                             <Route path="/AddJob" element={<AddJob isDarkMode={isDarkMode} />} />
                             <Route path="/ChatBot" element={<ChatBot isDarkMode={isDarkMode} />} />
-                            <Route path='/Dashboard' element= {<Dashboard />} />
+                            <Route path='/Dashboard' element={<Dashboard />} />
                         </Routes>
                     </Router>
                 </div>

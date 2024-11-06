@@ -1,4 +1,4 @@
-// src/components/NavBarWrapper.js
+src/components/NavBarWrapper.js
 import React from 'react';
 import NavBar from './NavBar';
 // import { useAuth } from './AuthContext';
