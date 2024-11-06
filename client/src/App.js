@@ -1,6 +1,6 @@
 import './App.css';
 import React, { useState, useEffect, useContext } from 'react';
-import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom';
 import HomePage from './components/HomePage';
 import NavBar from './components/NavBar';
 import AboutPage from './components/AboutPage';
@@ -12,82 +12,56 @@ import Profile from './components/Profile';
 import EditProfile from './components/EditProfile';
 import News from './components/News';
 import Jobs from './components/Jobs';
-import JobState from './context/Jobs/JobsState';
-import AddJob from './components/AddJob'
+import AddJob from './components/AddJob';
 import ChatBot from './components/ChatBot';
-import AuthState from './context/Auth/AuthState';
 import Dashboard from './components/Dashboard';
 import AuthContext from './context/Auth/authContext';
+import AuthState from './context/Auth/AuthState';
+import JobState from './context/Jobs/JobsState';
 
 function App() {
     const [isDarkMode, setIsDarkMode] = useState(false);
     const { isLoggedIn } = useContext(AuthContext);
 
-
-    const [user, setUser] = useState({
-        name: "Krushna Thakkar",
-        photoUrl: "https://via.placeholder.com/150",
-        bio: "Aspiring software engineer...",
-        skills: ["Python", "JavaScript", "React", "Machine Learning"],
-        appliedJobs: [1, 2, 3],
-        savedJobs: [1, 2],
-        savedEvents: [1],
-        education: [
-            { degree: "Bachelor of Science", field: "Computer Science", institution: "San Francisco State University", startYear: 2020, endYear: 2024 }
-        ],
-        experience: [
-            { position: "Machine Learning Engineer Intern", company: "Good Work Hub", startYear: 2023, endYear: 2024, highlights: ["Developed ML models", "Improved accuracy by 20%"] }
-        ]
-    });
-
-    // Load the user's preference from localStorage
     useEffect(() => {
-        console.log("Navbar visibility - isLoggedIn:", isLoggedIn); // Log to confirm isLoggedIn value
         const savedMode = localStorage.getItem('darkMode') === 'true';
         setIsDarkMode(savedMode);
-    }, [isLoggedIn]);
+    }, []);
 
     const toggleDarkMode = () => {
         const newMode = !isDarkMode;
         setIsDarkMode(newMode);
         localStorage.setItem('darkMode', newMode);
-
-        const iframe = document.getElementById('news-iframe');
-        if (iframe) {
-            iframe.contentWindow.postMessage({ darkMode: newMode }, '*');
-        }
-    };
-
-    const handleProfileSave = (updatedUser) => {
-        setUser(updatedUser);
     };
 
     return (
-        <AuthState>
-            <JobState>
-                <div className={isDarkMode ? 'bg-dark text-white' : 'bg-light text-dark'}>
-                    <Router>
+        <Router>
+            <AuthState>
+                <JobState>
+                    <div className={isDarkMode ? 'bg-dark text-white' : 'bg-light text-dark'}>
                         {isLoggedIn && <NavBar isDarkMode={isDarkMode} toggleDarkMode={toggleDarkMode} />}
                         <Routes>
-                            <Route exact path='/' element={<HomePage isDarkMode={isDarkMode} />} />
+                            <Route
+                                path="/"
+                                element={isLoggedIn ? <Navigate to="/Dashboard" replace /> : <HomePage isDarkMode={isDarkMode} />}
+                            />
                             <Route path="/signup" element={<SignUp isDarkMode={isDarkMode} />} />
                             <Route path="/login" element={<Login isDarkMode={isDarkMode} />} />
                             <Route path="/logout" element={<Logout isDarkMode={isDarkMode} />} />
                             <Route path="/about" element={<AboutPage isDarkMode={isDarkMode} />} />
                             <Route path="/member/:name" element={<MemberPage isDarkMode={isDarkMode} />} />
-                            <Route path="/profile" element={<Profile user={user} onEdit={() => { }} />} />
-                            <Route path="/jobs" element={<Jobs isDarkMode={isDarkMode} />} />
-                            <Route path="/edit-profile" element={<EditProfile user={user} onSave={handleProfileSave} />} />
-                            <Route path="/logout" element={<Logout isDarkMode={isDarkMode} />} />
-                            <Route path="/news" element={<News isDarkMode={isDarkMode} />} />
-                            <Route path="/AddJob" element={<AddJob isDarkMode={isDarkMode} />} />
-                            <Route path="/ChatBot" element={<ChatBot isDarkMode={isDarkMode} />} />
-                            <Route path='/Dashboard' element={<Dashboard />} />
+                            <Route path="/profile" element={isLoggedIn ? <Profile /> : <Navigate to="/" replace />} />
+                            <Route path="/jobs" element={isLoggedIn ? <Jobs isDarkMode={isDarkMode} /> : <Navigate to="/" replace />} />
+                            <Route path="/edit-profile" element={isLoggedIn ? <EditProfile /> : <Navigate to="/" replace />} />
+                            <Route path="/news" element={isLoggedIn ? <News isDarkMode={isDarkMode} /> : <Navigate to="/" replace />} />
+                            <Route path="/AddJob" element={isLoggedIn ? <AddJob isDarkMode={isDarkMode} /> : <Navigate to="/" replace />} />
+                            <Route path="/ChatBot" element={isLoggedIn ? <ChatBot isDarkMode={isDarkMode} /> : <Navigate to="/" replace />} />
+                            <Route path="/Dashboard" element={isLoggedIn ? <Dashboard isDarkMode={isDarkMode} /> : <Navigate to="/" replace />} />
                         </Routes>
-                    </Router>
-                </div>
-            </JobState>
-        </AuthState>
+                    </div>
+                </JobState>
+            </AuthState>
+        </Router>
     );
 }
 

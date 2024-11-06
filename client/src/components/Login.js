@@ -20,7 +20,7 @@ const Login = () => {
             const res = await response.json();
 
             if (res.Success && res.token) {
-                localStorage.setItem('auth_token', res.token);
+                localStorage.setItem('auth_token', res.token); // Store auth_token
                 login('user');
                 alert('Logged In Successfully');
                 navigate('/Dashboard');

@@ -1,42 +1,36 @@
 import React, { useState, useEffect } from 'react';
 import AuthContext from './authContext';
 
-
 const AuthState = ({ children }) => {
-  const [userType, setUserType] = useState(null);
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+    const [userType, setUserType] = useState(null);
+    const [isLoggedIn, setIsLoggedIn] = useState(false);
 
-  useEffect(() => {
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    // Check if userType is in local storage to set isLoggedIn
-    const storedUserType = localStorage.getItem('userType');
-    if (storedUserType) {
-      setUserType(storedUserType);
-      setIsLoggedIn(true);
-    }
-    
-  }, []);
-  console.log("Initial isLoggedIn:", isLoggedIn);
-  const login = (type) => {
-    localStorage.setItem('userType', type);
-    setUserType(type);
-    setIsLoggedIn(true);
-    console.log("Logged in:", isLoggedIn); // Log to check login status
-  };
+    useEffect(() => {
+        const token = localStorage.getItem('auth_token');
+        if (token) {
+            setUserType(localStorage.getItem('userType'));
+            setIsLoggedIn(true);
+        }
+    }, []);
 
-  const logout = () => {
-    console.log("Logging out...");
-    localStorage.removeItem('userType');
-    setUserType(null);
-    setIsLoggedIn(false);
-    console.log("Logged out, isLoggedIn:", isLoggedIn); // Check if this updates
-};
+    const login = (type) => {
+        localStorage.setItem('userType', type);
+        setUserType(type);
+        setIsLoggedIn(true); // Immediately set isLoggedIn to true
+    };
 
-  return (
-    <AuthContext.Provider value={{ userType, isLoggedIn, login, logout }}>
-      {children}
-    </AuthContext.Provider>
-  );
+    const logout = () => {
+        localStorage.removeItem('auth_token');
+        localStorage.removeItem('userType');
+        setUserType(null);
+        setIsLoggedIn(false); // Immediately set isLoggedIn to false
+    };
+
+    return (
+        <AuthContext.Provider value={{ userType, isLoggedIn, login, logout }}>
+            {children}
+        </AuthContext.Provider>
+    );
 };
 
 export default AuthState;
