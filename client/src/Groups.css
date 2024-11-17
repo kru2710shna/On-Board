@@ -1,0 +1,113 @@
+/* Groups.css */
+:root {
+    --background-color-light: #ffffff;
+    --background-color-dark: #1e1e1e;
+    --text-color-light: #000000;
+    --text-color-dark: #f1f1f1;
+    --card-background-light: #f9f9f9;
+    --card-background-dark: #333333;
+    --button-background: #007bff;
+    --button-color: #ffffff;
+    --border-color-light: #dddddd;
+    --border-color-dark: #444444;
+    --error-color: #ff4d4d;
+}
+
+body.light-mode {
+    --background-color: var(--background-color-light);
+    --text-color: var(--text-color-light);
+    --card-background: var(--card-background-light);
+    --border-color: var(--border-color-light);
+}
+
+body.dark-mode {
+    --background-color: var(--background-color-dark);
+    --text-color: var(--text-color-dark);
+    --card-background: var(--card-background-dark);
+    --border-color: var(--border-color-dark);
+}
+
+.container {
+    background-color: var(--background-color);
+    color: var(--text-color);
+    padding: 20px;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.group-item {
+    background-color: var(--card-background);
+    color: var(--text-color);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    padding: 15px;
+    margin: 10px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    width: 100%;
+    max-width: 300px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: background-color 0.3s ease, color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.group-item:hover {
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+}
+
+.group-item h3 {
+    margin-top: 0;
+}
+
+.group-item p {
+    flex-grow: 1;
+}
+
+.group-item button {
+    align-self: flex-end;
+    background-color: var(--button-background);
+    color: var(--button-color);
+    border: none;
+    padding: 5px 10px;
+    border-radius: 5px;
+    cursor: pointer;
+    margin: 5px;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.group-item button:hover {
+    background-color: darken(var(--button-background), 10%);
+}
+
+.group-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: flex-start;
+}
+
+.error {
+    color: var(--error-color);
+    font-weight: bold;
+    margin: 10px 0;
+}
+
+.group-buttons {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+}
+
+.group-detail {
+    padding: 20px;
+    background-color: var(--card-background);
+    color: var(--text-color);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    margin-top: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.group-detail h3 {
+    margin-top: 0;
+}

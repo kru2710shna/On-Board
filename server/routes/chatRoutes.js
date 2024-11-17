@@ -1,13 +1,8 @@
-// routes/chatRoutes.js
-const express = require('express');
+const express = require("express");
 const router = express.Router();
-const { getChatResponse } = require('../controllers/chatController');
-const fetchUser = require('../middlewares/fetchUser');
+const { getChatResponse } = require("../controllers/chatController");
 
-
-// Route to handle chat messages
-// router.post('/message', getChatResponse);
-router.post('/message', fetchUser, getChatResponse);
-
+// POST route to handle chat messages
+router.post("/message", getChatResponse);
 
 module.exports = router;

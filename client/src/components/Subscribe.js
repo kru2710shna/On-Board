@@ -1,8 +1,11 @@
 import React from 'react';
 import StripeCheckout from 'react-stripe-checkout';
+import { useNavigate } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 const Subscribe = () => {
+    const navigate = useNavigate();
+
     const handleToken = async (token) => {
         try {
             const response = await fetch(`${process.env.REACT_APP_API_BASE_URL}/api/subscribe`, {
@@ -32,9 +35,14 @@ const Subscribe = () => {
                 stripeKey={process.env.REACT_APP_STRIPE_API_KEY} // Your Stripe API Key
                 token={handleToken}
                 name="On-Board Subscription"
-                amount={100} // $50.00 in cents
+                amount={5000} // $50.00 in cents
                 currency="USD"
             />
+            <div className="mt-3">
+                <button className="btn btn-secondary" onClick={() => navigate(-1)}>
+                    Back
+                </button>
+            </div>
         </div>
     );
 };

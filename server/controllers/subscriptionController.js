@@ -7,7 +7,7 @@ const handleSubscription = async (req, res) => {
 
     try {
         const charge = await stripe.charges.create({
-            amount: 5000, // $50.00 subscription fee
+            amount: 1, // $50.00 subscription fee
             currency: 'usd',
             description: 'On-Board Premium Subscription',
             source: token.id,

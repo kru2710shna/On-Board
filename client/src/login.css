@@ -1,48 +1,43 @@
-/* Center the login page with a full-height layout */
 .login-page {
-    min-height: 100vh;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background-color: #f8f9fa;
+    height: 100vh;
+    background: #f8f9fa;
 }
 
 .login-container {
-    width: 100%;
-    max-width: 800px;
-    padding: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
 }
 
 .login-card {
-    padding: 40px;
+    border: none;
+    display: flex;
+    flex-direction: row;
+    overflow: hidden;
     border-radius: 10px;
+    width: 100%;
+    max-width: 900px;
 }
 
-.login-form .form-control {
-    border-radius: 5px;
-    padding: 15px;
-    font-size: 1.1rem;
+.left-section {
+    background-color: #e9ecef;
+    flex: 1;
+    color: #495057;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
 }
 
-.login-form .form-control-lg {
-    font-size: 1.25rem;
+.right-section {
+    flex: 1;
+    border-left: 1px solid #dee2e6;
 }
 
-.btn-lg {
-    padding: 12px;
-    font-size: 1.2rem;
+.card-title {
+    font-weight: 600;
 }
 
 .footer {
-    margin-top: 20px;
     font-size: 0.9rem;
-}
-
-.footer .link-primary {
-    color: #007bff;
-    text-decoration: none;
-}
-
-.footer .link-primary:hover {
-    text-decoration: underline;
 }
