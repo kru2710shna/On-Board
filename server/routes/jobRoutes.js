@@ -2,10 +2,7 @@ const express = require('express');
 const router = express.Router()
 var fetchUser = require('../middlewares/fetchUser')
 const Jobs = require('../models/Jobs');
-const Users = require('../models/User');
 const { body, validationResult } = require("express-validator");
-const bcrypt = require('bcrypt');
-var jwt = require('jsonwebtoken');
 require('dotenv').config();
 
 
@@ -62,7 +59,7 @@ router.post('/addjob', fetchUser, [
 router.put('/updatejob/:id', fetchUser, async (req, res) => {
     const { jobCompany, jobDescription, jobSalary, jobTitle, jobType } = req.body
     // Check user role before proceeding with update logic
-    if (req.userType !== 'Company' && req.userType !== 'Recruiter') {
+    if (req.type !== 'Company' && req.type !== 'Recruiter') {
         return res.status(403).send("Not authorized to edit jobs.");
     }
 
@@ -99,21 +96,18 @@ router.put('/updatejob/:id', fetchUser, async (req, res) => {
 
 // ROUTE -4 Delete Jobs: DELETE "/api/jobs/deletejob" Login required
 router.delete('/deletejob/:id', fetchUser, async (req, res) => {
-    const { jobCompany, jobDescription, jobSalary, jobTitle, jobType } = req.body
 
-    if (req.userType !== 'Company') {
+    if (req.type !== 'Company') {
         return res.status(403).send("Not authorized to delete jobs.");
     }
-
-
 
     let job = await Jobs.findById(req.params.id)
 
     if (!job) {
         return res.status(404).send("Job Not Found")
     }
-    // Allow deletion if user wons this Job
 
+    // Allow deletion if user wons this Job
     if (job.user.toString() !== req.user.id) {
         return res.status(401).send("Not Authorized")
     }

@@ -48,9 +48,11 @@ router.post('/createuser', [
 
     const data = {
       user: {
-        id: user.id
+        id: user.id,
+        type: user.type
       }
     }
+    
     const token = jwt.sign(data, process.env.JWT_SECRET);
     res.json({ token })
   }
@@ -68,13 +70,17 @@ router.post('/login', [
   body('password', 'Password Canot be Blank ').exists(),
   body('email', 'Enter a valid email').isEmail(),
 ], async (req, res) => {
+
   const errors = validationResult(req);
+
   if (!errors.isEmpty()) {
     return res.status(400).json({ errors: errors.array() });
   }
+
   const { email, password } = req.body
 
   try {
+
     let user = await User.findOne({ email })
     if (!user) {
       return res.status(403).json({ error: "Invalid Username or Password" });
@@ -88,12 +94,13 @@ router.post('/login', [
 
     const data = {
       user: {
-        id: user.id
+        id: user.id,
+        type: user.type
       }
     }
     const token = jwt.sign(data, process.env.JWT_SECRET);
     Success = true
-    res.json({ Success, token })
+    res.json({ Success: true, token, type: user.type }); 
 
   }
   catch (error) {
@@ -126,9 +133,12 @@ router.post('/getuser', fetchUser, async (req, res) => {
 // Route-4 Get get premium status of the use - GET "/api/user/premium-status" - Login Required 
 router.get('/premium-status', fetchUser, async (req, res) => {
   try {
+
     const user = await User.findById(req.user.id); // Assuming fetchUser middleware sets req.user
     res.json({ isPremiumUser: user.isPremiumUser });
+
   } catch (err) {
+
     console.error(err.message);
     res.status(500).send('Server error');
   }

@@ -3,6 +3,7 @@ import React, { useContext, useEffect, useRef, useState } from 'react';
 import JobContext from '../context/Jobs/jobsContext';
 import JobsItem from './JobsItem';
 import 'bootstrap/dist/css/bootstrap.min.css';
+
 import AuthContext from '../context/Auth/authContext';
 
 const Jobs = () => {

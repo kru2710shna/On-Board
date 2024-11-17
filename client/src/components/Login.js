@@ -18,10 +18,13 @@ const Login = () => {
                 body: JSON.stringify({ email: credentials.email, password: credentials.password }),
             });
             const res = await response.json();
+            console.log("Login response:", res); 
 
             if (res.Success && res.token) {
                 localStorage.setItem('auth_token', res.token);
-                login('user');
+                localStorage.setItem('type', res.type); 
+                console.log("Stored Type in Local Storage:", res.type);
+                login(res.type);
                 alert('Logged In Successfully');
                 navigate('/Dashboard');
             } else {
@@ -43,6 +46,7 @@ const Login = () => {
                 <div className="row justify-content-center">
                     <div className="col-md-10 col-lg-8">
                         <div className="card shadow-lg login-card d-flex flex-row">
+
                             {/* Left Section */}
                             <div className="card-body left-section p-4 d-flex flex-column justify-content-center">
                                 <h3 className="mb-3 text-primary">Welcome to On-Board!</h3>
@@ -56,6 +60,7 @@ const Login = () => {
                                     <li>Real-time Updates</li>
                                 </ul>
                             </div>
+
                             {/* Right Section */}
                             <div className="card-body right-section p-4 bg-white">
                                 <h2 className="card-title text-center mb-4">Login</h2>
