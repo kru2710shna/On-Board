@@ -11,8 +11,6 @@ var fetchUser = require('../middlewares/fetchUser')
 
 
 
-
-
 // Route-1 Create User - POST "/api/user/createuser" - No Login Required 
 router.post('/createuser', [
   body('name', 'Name must be at least 3 characters').isLength({ min: 3 }),
@@ -52,7 +50,7 @@ router.post('/createuser', [
         type: user.type
       }
     }
-    
+
     const token = jwt.sign(data, process.env.JWT_SECRET);
     res.json({ token })
   }
@@ -100,7 +98,7 @@ router.post('/login', [
     }
     const token = jwt.sign(data, process.env.JWT_SECRET);
     Success = true
-    res.json({ Success: true, token, type: user.type }); 
+    res.json({ Success: true, token, type: user.type });
 
   }
   catch (error) {
@@ -143,6 +141,58 @@ router.get('/premium-status', fetchUser, async (req, res) => {
     res.status(500).send('Server error');
   }
 });
+
+
+
+// Route-5 Fetch User Details - GET "/api/user/fetchuser" - Login Required
+router.get('/fetchuser', fetchUser, async (req, res) => {
+  try {
+    // Get the user details by ID
+    const user = await User.findById(req.user.id).select("-password"); // Exclude password from the response
+    if (!user) {
+      return res.status(404).json({ error: "User not found" });
+    }
+    res.json(user);
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send("Internal Server Error");
+  }
+});
+
+// Route-6 Edit User Details - PUT "/api/user/edituser" - Login Required
+router.put('/edituser', [
+  body('name', 'Name must be at least 3 characters').optional().isLength({ min: 3 }),
+  body('email', 'Enter a valid email').optional().isEmail(),
+  body('type').optional().isIn(['Student', 'Recruiter', 'Company']).withMessage('Type must be either Student, Recruiter, or Company'),
+], fetchUser, async (req, res) => {
+  // Handle validation errors
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    return res.status(400).json({ errors: errors.array() });
+  }
+
+  try {
+    const { name, email, type } = req.body;
+    const userID = req.user.id;
+
+    // Build the update object
+    const updatedFields = {};
+    if (name) updatedFields.name = name;
+    if (email) updatedFields.email = email;
+    if (type) updatedFields.type = type;
+
+    // Find the user and update their details
+    const user = await User.findByIdAndUpdate(userID, { $set: updatedFields }, { new: true }).select("-password");
+    if (!user) {
+      return res.status(404).json({ error: "User not found" });
+    }
+    res.json({ success: true, user });
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send("Internal Server Error");
+  }
+});
+
 
 
 module.exports = router
