@@ -1,8 +1,8 @@
-const Groups = require('../models/Groups');
-const { validationResult } = require('express-validator');
+import Groups from  '../models/Groups.js'
+import { validationResult } from 'express-validator';
 
 // Controller to get all groups (optional, if needed)
-exports.getGroups = async (req, res) => {
+export const getGroups  = async (req, res) => {
     try {
         const groups = await Groups.find();
         return res.json(groups); // Ensure only one response is sent
@@ -13,7 +13,7 @@ exports.getGroups = async (req, res) => {
 };
 
 // Controller to get groups for a specific user
-exports.getUserGroups = async (req, res) => {
+export const getUserGroups = async (req, res) => {
     try {
         const userId = req.user.id;
         const groups = await Groups.find({
@@ -30,7 +30,7 @@ exports.getUserGroups = async (req, res) => {
 };
 
 // Controller to create a new group
-exports.createGroup = async (req, res) => {
+export const createGroup = async (req, res) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
         return res.status(400).json({ errors: errors.array() });
@@ -59,7 +59,7 @@ exports.createGroup = async (req, res) => {
 };
 
 // Controller to join a group
-exports.joinGroup = async (req, res) => {
+export const joinGroup= async (req, res) => {
     try {
         const group = await Groups.findById(req.params.groupId);
         if (!group) {

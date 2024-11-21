@@ -1,13 +1,10 @@
-// server/routes/userRoutes.js
-const express = require('express');
+import express from 'express';
+import { body, validationResult } from 'express-validator';
+import bcrypt from 'bcrypt';
+import jwt from 'jsonwebtoken';
+import fetchUser from '../middlewares/fetchUser.js';  // Use ES Module import
+import User from '../models/User.js';  // Use ES Module import
 const router = express.Router();
-const User = require('../models/User');
-const { body, validationResult } = require("express-validator");
-const bcrypt = require('bcrypt');
-var jwt = require('jsonwebtoken');
-require('dotenv').config();
-var fetchUser = require('../middlewares/fetchUser')
-
 
 
 
@@ -17,6 +14,7 @@ router.post('/createuser', [
   body('password', 'Password must be at least 6 characters').isLength({ min: 5 }),
   body('email', 'Enter a valid email').isEmail(),
   body('type').isIn(['Student', 'Recruiter', 'Company']).withMessage('Type must be either Student, Recruiter, or Company'),
+  body('bio', 'Bio must be at least 5 characters').isLength({ min: 5 }),
 ], async (req, res) => {
 
   // Handle Bad Request
@@ -41,7 +39,8 @@ router.post('/createuser', [
       name: req.body.name,
       password: secPass,
       email: req.body.email,
-      type: req.body.type
+      type: req.body.type,
+      bio: req.body.bio
     })
 
     const data = {
@@ -97,7 +96,7 @@ router.post('/login', [
       }
     }
     const token = jwt.sign(data, process.env.JWT_SECRET);
-    Success = true
+    let Success = true
     res.json({ Success: true, token, type: user.type });
 
   }
@@ -143,7 +142,6 @@ router.get('/premium-status', fetchUser, async (req, res) => {
 });
 
 
-
 // Route-5 Fetch User Details - GET "/api/user/fetchuser" - Login Required
 router.get('/fetchuser', fetchUser, async (req, res) => {
   try {
@@ -162,6 +160,7 @@ router.get('/fetchuser', fetchUser, async (req, res) => {
 // Route-6 Edit User Details - PUT "/api/user/edituser" - Login Required
 router.put('/edituser', [
   body('name', 'Name must be at least 3 characters').optional().isLength({ min: 3 }),
+  body('bio', 'Bio must be at least 5 characters').isLength({ min: 5 }),
   body('email', 'Enter a valid email').optional().isEmail(),
   body('type').optional().isIn(['Student', 'Recruiter', 'Company']).withMessage('Type must be either Student, Recruiter, or Company'),
 ], fetchUser, async (req, res) => {
@@ -172,7 +171,7 @@ router.put('/edituser', [
   }
 
   try {
-    const { name, email, type } = req.body;
+    const { name, email, type, bio } = req.body;
     const userID = req.user.id;
 
     // Build the update object
@@ -180,6 +179,7 @@ router.put('/edituser', [
     if (name) updatedFields.name = name;
     if (email) updatedFields.email = email;
     if (type) updatedFields.type = type;
+    if (bio) updatedFields.bio = bio
 
     // Find the user and update their details
     const user = await User.findByIdAndUpdate(userID, { $set: updatedFields }, { new: true }).select("-password");
@@ -195,4 +195,4 @@ router.put('/edituser', [
 
 
 
-module.exports = router
+export default router;

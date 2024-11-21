@@ -1,5 +1,7 @@
-const User = require('../models/User');
-const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
+import User from '../models/User.js';
+import Stripe from 'stripe';
+
+const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
 
 const handleSubscription = async (req, res) => {
     const { token } = req.body;
@@ -27,4 +29,4 @@ const handleSubscription = async (req, res) => {
     }
 };
 
-module.exports = { handleSubscription };
+export default handleSubscription

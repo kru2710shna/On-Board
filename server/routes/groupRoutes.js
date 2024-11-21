@@ -1,8 +1,9 @@
-const express = require('express');
-const { body } = require("express-validator");
-const fetchUser = require('../middlewares/fetchUser');
+import express from 'express';
+import { body } from 'express-validator'; // Use ES import syntax
+import fetchUser from '../middlewares/fetchUser.js'; // Use ES import syntax
+import { createGroup, getGroups, joinGroup, getUserGroups } from '../controllers/groupController.js';
+
 const router = express.Router();
-const { createGroup, getGroups, joinGroup, getUserGroups } = require('../controllers/groupController');
 
 // Route to add a new group (POST /api/groups/creategroup) - Login required
 router.post('/creategroup', fetchUser, [
@@ -19,4 +20,4 @@ router.get('/user', fetchUser, getUserGroups);
 // Route to join a group (PATCH /api/groups/join/:groupId) - Login required
 router.patch('/join/:groupId', fetchUser, joinGroup);
 
-module.exports = router;
+export default router;  // Use export default

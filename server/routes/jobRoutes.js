@@ -1,12 +1,9 @@
-const express = require('express');
-const router = express.Router()
-var fetchUser = require('../middlewares/fetchUser')
-const Jobs = require('../models/Jobs');
-const { body, validationResult } = require("express-validator");
-require('dotenv').config();
+import express from 'express';  // ES module import
+import { body, validationResult } from 'express-validator'; // ES module import
+import fetchUser from '../middlewares/fetchUser.js'; // ES module import
+import Jobs from '../models/Jobs.js'; 
 
-
-
+const router = express.Router();  // Initialize the router here
 
 // ROUTE -1 Get All the Jobs: GET "/api/jobs/fetchalljobs" Login required
 router.get('/fetchalljobs', fetchUser, async (req, res) => {
@@ -107,7 +104,7 @@ router.delete('/deletejob/:id', fetchUser, async (req, res) => {
         return res.status(404).send("Job Not Found")
     }
 
-    // Allow deletion if user wons this Job
+    // Allow deletion if user owns this Job
     if (job.user.toString() !== req.user.id) {
         return res.status(401).send("Not Authorized")
     }
@@ -117,5 +114,23 @@ router.delete('/deletejob/:id', fetchUser, async (req, res) => {
 
 })
 
+// Route to fetch all jobs applied by the user (display in user profile)
+router.get('/profile', fetchUser, async (req, res) => {
+    try {
+        const appliedJobs = await Jobs.find({ applicants: req.user.id })
+            .populate('user', 'jobCompany jobTitle')  // Optional: populate job details if needed
+            .populate('applicants', 'name email');   // Optional: populate user details of the applicants
 
-module.exports = router
+        if (appliedJobs.length === 0) {
+            return res.status(404).json({ msg: "No jobs applied yet" });
+        }
+
+        res.json({ appliedJobs });
+    } catch (error) {
+        console.error(error.message);
+        res.status(500).send("Internal Server Error");
+    }
+});
+
+
+export default router;

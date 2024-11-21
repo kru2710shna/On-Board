@@ -1,37 +1,42 @@
-// models/Jobs.js
-const mongoose = require('mongoose');
+import mongoose from 'mongoose';
+const { Schema } = mongoose;
 
-// Define a schema for the User model
-const jobsSchema = new mongoose.Schema({
-  user : {
-    type: mongoose.Schema.Types.ObjectId, 
-    ref : "user",
-    required: true
-  },
-  jobTitle: {
-    type: String,
-    required: true
-  },
-  jobDescription: {  
-    type: String,
-    required: true,
-  },
-  jobSalary: {
-    type: String, 
-    required: true
-  },
-  date: {
-    type: Date,
-    default: Date.now
-  },
-  jobType: {
-    type: String,
-  },
-  jobCompany: {
-    type: String, 
+
+const jobsSchema = new Schema(
+  {
+    user: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "user",
+      required: true
+    },
+    jobTitle: {
+      type: String,
+      required: true
+    },
+    jobDescription: {
+      type: String,
+      required: true,
+    },
+    jobSalary: {
+      type: String,
+      required: true
+    },
+    date: {
+      type: Date,
+      default: Date.now
+    },
+    jobType: {
+      type: String,
+    },
+    jobCompany: {
+      type: String,
+    },
+    applicants: [{ type: Schema.Types.ObjectId, ref: 'User' }]
   }
-});
+);
 
-// Create the User model
+// Create the Job model
 const Job = mongoose.model('Job', jobsSchema);
-module.exports = Job; 
+
+// Export the model using ES module syntax
+export default Job;

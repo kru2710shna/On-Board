@@ -1,5 +1,6 @@
 {
   "dependencies": {
+    "type": "module",
     "cors": "^2.8.5",
     "express": "^4.21.0",
     "helmet": "^8.0.0",
@@ -12,4 +13,5 @@
   "devDependencies": {
     "@babel/plugin-proposal-private-property-in-object": "^7.21.11"
   }
+  
 }

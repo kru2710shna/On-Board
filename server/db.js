@@ -1,5 +1,4 @@
-const mongoose = require('mongoose');
-const express = require('express');
+import mongoose from 'mongoose';
 
 const connectToMongo = async () => {
     try {
@@ -13,4 +12,4 @@ const connectToMongo = async () => {
     }
 }
 
-module.exports = connectToMongo;
+export default connectToMongo; // Use export default for ES module syntax

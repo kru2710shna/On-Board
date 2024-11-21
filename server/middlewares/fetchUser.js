@@ -1,6 +1,8 @@
 // /server/midl/fetchJobs
-var jwt = require('jsonwebtoken');
-require('dotenv').config();
+import jwt from 'jsonwebtoken';
+import dotenv from 'dotenv';
+
+dotenv.config();
 
 const fetchUser = (req, res, next) => {
     // Get the token from the header
@@ -23,4 +25,4 @@ const fetchUser = (req, res, next) => {
 };
 
 
-module.exports = fetchUser;
+export default fetchUser

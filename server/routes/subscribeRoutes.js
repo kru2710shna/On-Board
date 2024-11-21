@@ -1,7 +1,8 @@
-const express = require('express');
-const { handleSubscription } = require('../controllers/subscriptionController');
+import express from 'express';
+import handleSubscription from '../controllers/subscriptionController.js'
 const router = express.Router();
+import fetchUser from '../middlewares/fetchUser.js';
 
-router.post('/', handleSubscription);
+router.post('/', fetchUser, handleSubscription);
 
-module.exports = router;
+export default router;
