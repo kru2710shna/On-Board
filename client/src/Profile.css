@@ -1,0 +1,76 @@
+/* General Styles */
+body {
+    font-family: 'Roboto', sans-serif;
+    background-color: #f8f9fa;
+}
+
+/* Section Titles */
+.section-title {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #007bff;
+    border-bottom: 2px solid #6610f2;
+    margin-bottom: 20px;
+    padding-bottom: 5px;
+}
+
+/* Contact Info */
+.contact-info p {
+    font-size: 1rem;
+    color: #333;
+    margin: 5px 0;
+}
+
+/* Section Tabs */
+.section-tab {
+    margin-bottom: 30px;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    padding: 15px;
+}
+
+.section-tab h4 {
+    font-size: 1.3rem;
+    color: #007bff;
+    margin-bottom: 10px;
+}
+
+.section-tab ul {
+    list-style: none;
+    padding: 0;
+}
+
+.section-tab ul li {
+    margin: 5px 0;
+    color: #555;
+    font-size: 0.95rem;
+}
+
+.section-tab ul li strong {
+    font-weight: bold;
+    color: #333;
+}
+
+/* Related Sections */
+.related-section-title {
+    font-size: 1.5rem;
+    color: #007bff;
+    margin-bottom: 20px;
+}
+
+.related-section-card {
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    padding: 15px;
+    margin-bottom: 15px;
+}
+
+.related-section-card h5 {
+    color: #007bff;
+    font-weight: bold;
+    margin-bottom: 10px;
+}

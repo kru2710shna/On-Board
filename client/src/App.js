@@ -50,7 +50,7 @@ function App() {
                             <Route path="/logout" element={<Logout isDarkMode={isDarkMode} />} />
                             <Route path="/about" element={<AboutPage isDarkMode={isDarkMode} />} />
                             <Route path="/member/:name" element={<MemberPage isDarkMode={isDarkMode} />} />
-                            <Route path="/profile" element={isLoggedIn ? <Profile /> : <Navigate to="/" replace />} />
+                            <Route path="/profile" element={isLoggedIn ? <Profile isDarkMode={isDarkMode} /> : <Navigate to="/" replace />} />
                             <Route path="/jobs" element={<Jobs isDarkMode={isDarkMode} /> }/>
                             <Route path="/addjob" element={<AddJob  isDarkMode={isDarkMode} />} />
                             <Route path="/editprofile" element={ <EditProfile  isDarkMode={isDarkMode} />} />

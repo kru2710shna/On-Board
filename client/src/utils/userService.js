@@ -8,6 +8,7 @@ const getProfile = async () => {
         throw new Error('No authentication token found. Please log in again.');
     }
 
+    console.log('Fetching from:', `${HOST_URL}/api/user/fetchuser`);
     const response = await fetch(`${HOST_URL}/api/${String(process.env.REACT_APP_AUTH_FOR_USER)}/${String(process.env.REACT_APP_GETUSERPROFILE_TAG)}`, {
         method: 'GET',
         headers: {
@@ -42,28 +43,32 @@ const updateProfile = async (userDetails) => {
 
     return response.json();
 };
-
 const fetchJobs = async () => {
-    const HOST_URL = String(process.env.REACT_APP_API_BASE_URL);
+    try {
+        const HOST_URL = process.env.REACT_APP_API_BASE_URL;
+        const authToken = localStorage.getItem('auth_token');
 
-    const authToken = localStorage.getItem('auth_token');
-    if (!authToken) {
-        throw new Error('No authentication token found. Please log in again.');
+        if (!authToken) {
+            throw new Error('Authentication token not found. Please log in.');
+        }
+
+        const response = await fetch(`${HOST_URL}/api/jobs/profile`, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                auth_token: authToken,
+            },
+        });
+
+        if (!response.ok) {
+            throw new Error(`Error: ${response.status} - ${response.statusText}`);
+        }
+
+        return await response.json();
+    } catch (error) {
+        console.error("Error fetching jobs:", error);
+        throw error;
     }
-
-    const response = await fetch(`${HOST_URL}/api/${String(process.env.REACT_APP_JOBS_TAG)}/${String(process.env.REACT_APP_USERS_JOBS)}`, {
-        method: 'GET',
-        headers: {
-            'Content-Type': 'application/json',
-            'auth_token': authToken, 
-        },
-    });
-
-    if (!response.ok) {
-        throw new Error('Failed to fetch jobs');
-    }
-
-    return response.json();
 };
 
 const fetchGroups = async () => {

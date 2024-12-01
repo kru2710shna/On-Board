@@ -1,7 +1,7 @@
 import express from 'express';  // ES module import
 import { body, validationResult } from 'express-validator'; // ES module import
 import fetchUser from '../middlewares/fetchUser.js'; // ES module import
-import Jobs from '../models/Jobs.js'; 
+import Jobs from '../models/Jobs.js';
 
 const router = express.Router();  // Initialize the router here
 
@@ -115,11 +115,13 @@ router.delete('/deletejob/:id', fetchUser, async (req, res) => {
 })
 
 // Route to fetch all jobs applied by the user (display in user profile)
+
+// /api/jobs/profile
 router.get('/profile', fetchUser, async (req, res) => {
     try {
         const appliedJobs = await Jobs.find({ applicants: req.user.id })
-            .populate('user', 'jobCompany jobTitle')  // Optional: populate job details if needed
-            .populate('applicants', 'name email');   // Optional: populate user details of the applicants
+            .populate({ path: 'user', select: 'jobCompany jobTitle' })
+            .populate({ path: 'applicants', select: 'name email' });
 
         if (appliedJobs.length === 0) {
             return res.status(404).json({ msg: "No jobs applied yet" });

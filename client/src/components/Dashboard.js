@@ -33,7 +33,7 @@ const Dashboard = ({ isDarkMode }) => {
                         Add Job
                     </button>
                 ) : (
-                    <p>UserType is not Company: {type}</p>
+                    <p>Hello: {type}</p>
                 )}
                 <div className="row g-4">
                     {jobsData.map((job) => (
