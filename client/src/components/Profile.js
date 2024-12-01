@@ -2,8 +2,9 @@ import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { getProfile, fetchJobs, fetchGroups } from '../utils/userService.js';
 import Section from '../components/Section.js';
-import RelatedSection from '../components/RelatedSection.js';
+import RelatedSection from '../components/RelatedSection.js'
 import 'bootstrap/dist/css/bootstrap.min.css';
+import '../Profile.css'
 
 const Profile = ({ isDarkMode }) => {
     const navigate = useNavigate();
@@ -19,8 +20,16 @@ const Profile = ({ isDarkMode }) => {
                 const userData = await getProfile();
                 setUser(userData);
 
+                const jobsData = await fetchJobs();
+                //console.log(jobsData.appliedJobs);
+                setJobs(Array.isArray(jobsData.appliedJobs) ? jobsData.appliedJobs : []);
+
                 const groupsData = await fetchGroups();
-                setGroups(groupsData || []);
+                console.log(groupsData)
+                // setGroups(Array.isArray(groupsData.groups) ? groupsData.groups : []);
+                setGroups(Array.isArray(groupsData) ? groupsData : []);
+
+
             } catch (err) {
                 setError(err.message);
             } finally {
@@ -105,11 +114,6 @@ const Profile = ({ isDarkMode }) => {
                                 fields={['company', 'position', 'startDate', 'endDate', 'description']}
                             />
                             <Section
-                                title="Education"
-                                data={user.education}
-                                fields={['institution', 'degree', 'fieldOfStudy', 'startDate', 'endDate']}
-                            />
-                            <Section
                                 title="Classes"
                                 data={user.classes}
                                 fields={['title', 'description', 'startDate', 'endDate']}
@@ -134,14 +138,30 @@ const Profile = ({ isDarkMode }) => {
 
                     <hr className="my-4" />
 
-                    <div className="row">
-                        <div className="col-md-6">
-                            <RelatedSection title="Groups" data={groups} refKey="groupName" />
-                        </div>
-                        <div className="col-md-6">
-                            <RelatedSection title="Jobs" data={jobs} refKey="jobTitle" />
-                        </div>
-                    </div>
+                    {/* Add this part here */}
+                    {groups.length > 0 && (
+                        <RelatedSection
+                            title="Groups"
+                            data={groups}
+                            fields={[
+                                { label: "Group Name", key: "name" },
+                                { label: "Description", key: "description" },
+                            ]}
+                        />
+                    )}
+                    {jobs.length > 0 && (
+                        <RelatedSection
+                            title="Jobs"
+                            data={jobs}
+                            fields={[
+                                { label: "Job Title", key: "jobTitle" },
+                                { label: "Company", key: "jobCompany" },
+                                { label: "Description", key: "jobDescription" },
+                                { label: "Salary", key: "jobSalary" }
+                            ]}
+                        />
+                    )}
+
 
                     <div className="text-center mt-5">
                         <button

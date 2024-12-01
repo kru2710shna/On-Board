@@ -1,0 +1,60 @@
+/* Professional Styling for the Profile Sections */
+
+/* Card Styling */
+.card {
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.card-header {
+    font-size: 1.25rem;
+    background-color: #343a40;
+    color: #fff;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+}
+
+.card-body {
+    background-color: #f8f9fa;
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
+    padding: 20px;
+}
+
+/* Field Styling */
+.card-body p {
+    font-size: 1rem;
+    line-height: 1.6;
+    color: #495057;
+}
+
+.card-body p strong {
+    color: #007bff;
+}
+
+/* Add spacing between items */
+.card-body .mb-4 {
+    margin-bottom: 1.5rem;
+}
+
+/* Description Styling */
+.card-body p strong {
+    font-weight: bold;
+}
+
+.card-body p {
+    margin-bottom: 0.5rem;
+    color: #333;
+}
+
+.card-body hr {
+    margin-top: 1.5rem;
+    margin-bottom: 1.5rem;
+    border-top: 1px solid #ddd;
+}
+
+/* Empty State Styling */
+.text-muted {
+    font-size: 1rem;
+    color: #6c757d;
+}

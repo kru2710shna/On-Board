@@ -74,3 +74,54 @@ body {
     font-weight: bold;
     margin-bottom: 10px;
 }
+
+/* Experience Section */
+.experience-section {
+    margin-bottom: 30px;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.experience-section.dark-mode {
+    background-color: #343a40;
+    color: #fff;
+}
+
+.experience-item {
+    margin-bottom: 20px;
+    border-bottom: 1px solid #ddd;
+    padding-bottom: 10px;
+}
+
+.experience-item h5 {
+    font-size: 1.3rem;
+    color: #007bff;
+    font-weight: bold;
+}
+
+.experience-item p {
+    margin: 5px 0;
+    font-size: 1rem;
+    color: #555;
+}
+
+.experience-item p span {
+    font-weight: bold;
+    color: #333;
+}
+
+.experience-item.dark-mode p {
+    color: #ccc;
+}
+
+.experience-dates {
+    font-size: 0.9rem;
+    color: #999;
+    margin-top: 5px;
+}
+
+.experience-dates.dark-mode {
+    color: #bbb;
+}
