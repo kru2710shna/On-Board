@@ -1,5 +1,5 @@
 // context/Jobs/JobState.js
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useCallback } from "react";
 import JobContext from './jobsContext';
 import AuthContext from '../Auth/authContext';
 
@@ -13,43 +13,38 @@ const JobState = (props) => {
 
   // Add Jobs 
   const addJob = async (newJob) => {
-
-    const { jobTitle, jobDescription, jobSalary, jobType, jobCompany } = newJob;
+    const { jobTitle, jobDescription, jobSalary, jobType, jobCompany, jobRequirements } = newJob;
 
     if (type !== 'Company') {
       console.log("Not authorized to add jobs.");
       return;
     }
-    console.log("UserType",type);
 
     try {
-
-      const response = await fetch(`${HOST_URL}/api/${String(process.env.REACT_APP_JOBS_TAG)}/${String(process.env.REACT_APP_ADDJOBS_TAG)}`, 
-      {
+      const response = await fetch(`${HOST_URL}/api/${String(process.env.REACT_APP_JOBS_TAG)}/${String(process.env.REACT_APP_ADDJOBS_TAG)}`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
           'auth_token': localStorage.getItem('auth_token'),
         },
-        body: JSON.stringify({ jobTitle, jobDescription, jobSalary, jobType, jobCompany }),
+        body: JSON.stringify({ jobTitle, jobDescription, jobSalary, jobType, jobCompany, jobRequirements }),
       });
 
-      // Check if response is OK (status 200-299)
       if (!response.ok) {
         throw new Error(`Failed to add job: ${response.statusText}`);
       }
 
-
-      // Parse response to confirm new job creation
       const addedJob = await response.json();
       console.log("Job added successfully:", addedJob);
 
-      // Update state with new job
-      setJobs([...jobs, addedJob]);
+      // Update state with new job without fetching all jobs
+      setJobs((prevJobs) => [...prevJobs, addedJob]);
+
     } catch (error) {
       console.error("Error adding job:", error);
     }
   };
+
 
 
 
@@ -85,8 +80,11 @@ const JobState = (props) => {
 
 
 
+
+
+
   // Edit Jobs 
-  const editjob = async (id, jobTitle, jobDescription, jobSalary, jobType, jobCompany) => {
+  const editjob = async (id, jobTitle, jobDescription, jobSalary, jobType, jobCompany, jobRequirements) => {
 
     try {
       const response = await fetch(`${HOST_URL}/api/${String(process.env.REACT_APP_JOBS_TAG)}/${String(process.env.REACT_APP_UPDATE_TAG)}/${id}`, {
@@ -95,13 +93,13 @@ const JobState = (props) => {
           'Content-Type': 'application/json',
           'auth_token': localStorage.getItem('auth_token'),
         },
-        body: JSON.stringify({ jobTitle, jobDescription, jobSalary, jobType, jobCompany }),
+        body: JSON.stringify({ jobTitle, jobDescription, jobSalary, jobType, jobCompany, jobRequirements }),
       });
 
       if (response.ok) {
         setJobs(jobs.map(job =>
           job._id === id
-            ? { ...job, jobTitle, jobDescription, jobSalary, jobType, jobCompany }
+            ? { ...job, jobTitle, jobDescription, jobSalary, jobType, jobCompany, jobRequirements }
             : job
         ));
       } else {
@@ -112,23 +110,31 @@ const JobState = (props) => {
     }
   };
 
+
+
+
+
+
   // Fetch All Jobs
-  const getalljobs = async () => {
+  const getalljobs = useCallback(async () => {
     try {
-      const response = await fetch(`${HOST_URL}/api/${String(process.env.REACT_APP_JOBS_TAG)}/${String(process.env.REACT_APP_FETCH_TAG)}`, {
-        method: 'GET',
-        headers: {
-          'Content-Type': 'application/json',
-          'auth_token': localStorage.getItem('auth_token'),
+      const response = await fetch(
+        `${HOST_URL}/api/${String(process.env.REACT_APP_JOBS_TAG)}/${String(process.env.REACT_APP_FETCH_TAG)}`,
+        {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json',
+            'auth_token': localStorage.getItem('auth_token'),
+          },
         }
-      });
+      );
 
       const res = await response.json();
-      setJobs(res);  // Update state with fetched jobs
+      setJobs(res); // Update state with fetched jobs
     } catch (error) {
       console.error("Error fetching jobs:", error);
     }
-  };
+  }, [HOST_URL, setJobs]);
 
   return (
     <JobContext.Provider value={{ jobs, addJob, deletejob, editjob, getalljobs }}>
@@ -136,5 +142,22 @@ const JobState = (props) => {
     </JobContext.Provider>
   );
 };
+
+
+
+export const fetchCompanyJobs = async (dispatch) => {
+  try {
+    const response = await fetch(
+      `${HOST_URL}/api/${String(process.env.REACT_APP_JOBS_TAG)}/${String(process.env.REACT_APP_COMPANYPROFILE)}`
+    );
+
+    if (!response.ok) throw new Error(`Error: ${response.statusText}`);
+    const data = await response.json();
+    dispatch({ type: "FETCH_COMPANY_JOBS", payload: data });
+  } catch (error) {
+    console.error("Error fetching company jobs:", error);
+  }
+};
+
 
 export default JobState;
