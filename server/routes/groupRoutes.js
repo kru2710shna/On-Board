@@ -1,7 +1,7 @@
 import express from 'express';
 import { body } from 'express-validator'; // Use ES import syntax
 import fetchUser from '../middlewares/fetchUser.js'; // Use ES import syntax
-import { createGroup, getGroups, joinGroup, getUserGroups, deleteGroup, sendMessageToGroup, getGroupDetails } from '../controllers/groupController.js';
+import { createGroup, getGroups, joinGroup, getUserGroups, deleteGroup, sendMessageToGroup, getGroupDetails, getGroupMembers } from '../controllers/groupController.js';
 
 const router = express.Router();
 
@@ -29,4 +29,6 @@ router.post('/:groupId/message', fetchUser, sendMessageToGroup);
 // Route to get group details (GET /api/groups/:groupId) - Login required
 router.get('/:groupId', fetchUser,getGroupDetails)
 
+// Route to get group members (GET /api/groups/:groupId) - Login required
+router.get('/:groupId/members', fetchUser, getGroupMembers);
 export default router;  // Use export default

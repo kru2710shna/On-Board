@@ -154,3 +154,25 @@ export const getGroupDetails = async (req, res) => {
         res.status(500).json({ error: 'Internal Server Error' });
     }
 };
+
+export const getGroupMembers = async (req, res) => {
+    try {
+        const { groupId } = req.params;
+
+        if (!groupId) {
+            return res.status(400).json({ error: "Group ID is required" });
+        }
+
+        console.log(`Fetching members for group ID: ${groupId}`);
+
+        const group = await Groups.findById(groupId).populate('members', 'name email');
+        if (!group) {
+            return res.status(404).json({ error: 'Group not found' });
+        }
+
+        res.json({ members: group.members });
+    } catch (error) {
+        console.error('Error fetching group members:', error);
+        res.status(500).json({ error: 'Internal Server Error' });
+    }
+};

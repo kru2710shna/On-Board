@@ -22,7 +22,7 @@ import CreateGroup from './components/CreateGroup.js';
 import JoinGroup from './components/JoinGroup.js';
 import Event from './components/Event.js'
 import RSVP from './components/RSVP.js';
-
+import Chatting from './components/Chatting.js';
 
 function App() {
     const [isDarkMode, setIsDarkMode] = useState(false);
@@ -67,6 +67,11 @@ function App() {
                     <Route path="/rsvp" element={<RSVP />} />
                     <Route path="/join-group/:groupId" element={<JoinGroup isDarkMode={isDarkMode} />} />
                     <Route path="/create-group" element={<CreateGroup isDarkMode={isDarkMode} />} />
+                    <Route path="/chatting" element={<Chatting isDarkMode={isDarkMode} />} />
+                    <Route path="/chat/:groupId" element={<Chatting isDarkMode={isDarkMode} />} />
+
+
+                    
                 </Routes>
             </div>
         </Router>

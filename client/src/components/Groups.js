@@ -5,20 +5,29 @@ import '../Groups.css'; // Import CSS for styling
 
 const Groups = ({ isDarkMode }) => {
     const { groups, getGroups, joinGroup } = useContext(GroupContext);
-    const navigate = useNavigate(); // For navigation to CreateGroup or JoinGroup
+    const navigate = useNavigate();
 
     // Fetch groups on component mount
     useEffect(() => {
-        getGroups(); // Fetch all groups
+        const fetchGroups = async () => {
+            try {
+                await getGroups();
+            } catch (error) {
+                console.error("Failed to fetch groups:", error);
+                alert("Could not load groups. Please try again later.");
+            }
+        };
+        fetchGroups();
     }, [getGroups]);
 
     // Handle Join Group
     const handleJoinGroup = async (groupId) => {
         try {
-            await joinGroup(groupId); // Join the group
-            navigate(`/join-group/${groupId}`); // Redirect to JoinGroup chat page
+            await joinGroup(groupId);
+            navigate(`/join-group/${groupId}`);
         } catch (error) {
-            console.error('Error joining group:', error);
+            console.error("Error joining group:", error);
+            alert("Failed to join group. Please try again.");
         }
     };
 
