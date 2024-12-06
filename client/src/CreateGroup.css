@@ -1,0 +1,149 @@
+/* General Container Styles */
+.create-group-container {
+    padding: 20px;
+    max-width: 500px;
+    margin: 0 auto;
+    font-family: Arial, sans-serif;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Heading Styles */
+.create-group-container h2 {
+    text-align: center;
+    margin-bottom: 20px;
+    font-size: 24px;
+    font-weight: bold;
+}
+
+/* Form Styles */
+form {
+    display: flex;
+    flex-direction: column;
+}
+
+label {
+    margin-bottom: 10px;
+    font-size: 16px;
+    font-weight: bold;
+}
+
+input,
+textarea {
+    width: 100%;
+    padding: 12px;
+    margin-top: 5px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    font-size: 14px;
+    transition: border-color 0.3s ease-in-out;
+}
+
+input:focus,
+textarea:focus {
+    border-color: #007bff;
+    outline: none;
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+}
+
+textarea {
+    resize: none;
+    height: 120px;
+}
+
+/* Form Actions */
+.form-actions {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+}
+
+button {
+    padding: 12px 20px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: background-color 0.3s, transform 0.2s;
+}
+
+/* Submit Button */
+button[type='submit'] {
+    background-color: #007bff;
+    color: white;
+}
+
+button[type='submit']:hover {
+    background-color: #0056b3;
+    transform: scale(1.05);
+}
+
+/* Cancel Button */
+button[type='button'] {
+    background-color: #6c757d;
+    color: white;
+}
+
+button[type='button']:hover {
+    background-color: #5a6268;
+    transform: scale(1.05);
+}
+
+/* Light Mode */
+.light-mode {
+    background-color: #ffffff;
+    color: #000000;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+.light-mode input,
+.light-mode textarea {
+    background-color: #f9f9f9;
+    border: 1px solid #ddd;
+    color: #000000;
+}
+
+.light-mode input:focus,
+.light-mode textarea:focus {
+    border-color: #007bff;
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+}
+
+/* Dark Mode */
+.dark-mode {
+    background-color: #121212;
+    color: #ffffff;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+.dark-mode input,
+.dark-mode textarea {
+    background-color: #1e1e1e;
+    border: 1px solid #333333;
+    color: #ffffff;
+}
+
+.dark-mode input:focus,
+.dark-mode textarea:focus {
+    border-color: #1e90ff;
+    box-shadow: 0 0 5px rgba(30, 144, 255, 0.5);
+}
+
+.dark-mode button[type='submit'] {
+    background-color: #1e90ff;
+}
+
+.dark-mode button[type='submit']:hover {
+    background-color: #1c86ee;
+    transform: scale(1.05);
+}
+
+.dark-mode button[type='button'] {
+    background-color: #444444;
+    color: #ffffff;
+}
+
+.dark-mode button[type='button']:hover {
+    background-color: #555555;
+    transform: scale(1.05);
+}

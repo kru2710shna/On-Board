@@ -5,7 +5,7 @@ const UpdateDescription = ({ update }) => {
     const [isUpdated, setIsUpdated] = useState(false);
 
     const handleToggle = () => {
-        setIsUpdated((prev) => !prev); // Toggle the state
+        setIsUpdated((prev) => !prev); 
     };
 
     return (

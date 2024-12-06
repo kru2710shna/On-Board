@@ -1,6 +1,6 @@
 // Calls -> /api/user/fetchuser -> Returns User Profile
 const getProfile = async () => {
-    const HOST_URL = String(process.env.REACT_APP_API_BASE_URL);
+    let HOST_URL = String(process.env.REACT_APP_API_BASE_URL);
 
     // Retrieve auth_token from localStorage (or another storage mechanism)
     const authToken = localStorage.getItem('auth_token');
@@ -100,6 +100,10 @@ const fetchGroups = async () => {
     const HOST_URL = String(process.env.REACT_APP_API_BASE_URL);
     const authToken = localStorage.getItem('auth_token');
 
+    // TRACK CONSOLE
+    console.log('[Entered Profile.js/userService.js/fetchGroups] Fetching from:', `${HOST_URL}/api/${process.env.REACT_APP_AUTH_FOR_FETCHGROUPFORUSER}`);
+        
+
     if (!authToken) {
         throw new Error('No authentication token found. Please log in again.');
     }
@@ -125,4 +129,34 @@ const fetchGroups = async () => {
 };
 
 
-export { getProfile, updateProfile, fetchJobs, fetchGroups };
+// Calls -> /api/user/createuser -> Creates a new user
+const createUser = async (userDetails) => {
+    let HOST_URL = String(process.env.REACT_APP_API_BASE_URL)
+
+    console.log('[Entered userService.js/createUser] Fetching from:', `${HOST_URL}/api/${process.env.REACT_APP_AUTH_FOR_USER || 'user'}/${process.env.REACT_APP_CREATEUSER_TAG || 'createuser'}`);
+
+    try {
+        const response = await fetch(`${HOST_URL}/api/${String(process.env.REACT_APP_AUTH_FOR_USER)}/${String(process.env.REACT_APP_CREATEUSER_TAG)}`, 
+        {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(userDetails),
+        });
+
+        if (!response.ok) {
+            const errorData = await response.json();
+            console.error('Error creating user:', errorData);
+            throw new Error(errorData.message || 'Failed to create user');
+        }
+
+        return response.json();
+    } catch (error) {
+        console.error('Error during the user creation request:', error);
+        throw error; 
+    }
+};
+
+
+export { getProfile, updateProfile, fetchJobs, fetchGroups ,createUser};

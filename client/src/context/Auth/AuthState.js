@@ -8,17 +8,15 @@ const AuthState = ({ children }) => {
     useEffect(() => {
         const token = localStorage.getItem('auth_token');
         const storedType = localStorage.getItem('type');
-        console.log("Stored Type in Local Storage:", storedType);
-
+    
         if (token && storedType) {
             setUserType(storedType); // Update userType state
             setIsLoggedIn(true); // Update logged-in status
-          }
+        }
     }, []);
-
+    
     const login = (type) => {
         localStorage.setItem('type', type);
-        console.log("Stored Type in Local Storage:", type);
         setUserType(type);
         setIsLoggedIn(true); // Immediately set isLoggedIn to true
     };

@@ -4,7 +4,7 @@ import JobContext from './jobsContext';
 import AuthContext from '../Auth/authContext';
 
 const JobState = (props) => {
-  let HOST_URL = String(process.env.REACT_APP_API_BASE_URL);
+  const HOST_URL = String(process.env.REACT_APP_API_BASE_URL);
   const initialJobs = [];
   const [jobs, setJobs] = useState(initialJobs);
   const { type } = useContext(AuthContext);
@@ -50,34 +50,45 @@ const JobState = (props) => {
 
   // Delete Jobs
   const deletejob = async (id) => {
-
     if (type !== 'Company') {
-      console.log("Not authorized to add jobs.");
+      alert("You are not authorized to delete jobs.");
+      console.error("Authorization failed: Only companies can delete jobs.");
       return;
     }
-
+  
+    // Optimistically update the state
+    const previousJobs = [...jobs];
+    setJobs((prevJobs) => prevJobs.filter((job) => job._id !== id));
+  
     try {
-      const response = await fetch(`${HOST_URL}/api/${String(process.env.REACT_APP_JOBS_TAG)}/${String(process.env.REACT_APP_DELETE_TAG)}/${id}`, {
-        method: 'DELETE',
-        headers: {
-          'Content-Type': 'application/json',
-          'auth_token': localStorage.getItem('auth_token'),
+      const response = await fetch(
+        `${HOST_URL}/api/${String(process.env.REACT_APP_JOBS_TAG)}/${String(process.env.REACT_APP_DELETE_TAG)}/${id}`,
+        {
+          method: 'DELETE',
+          headers: {
+            'Content-Type': 'application/json',
+            'auth_token': localStorage.getItem('auth_token'),
+          },
         }
-      });
-
+      );
+  
       if (response.ok) {
-        // Remove the job from the local state
-        setJobs(jobs.filter(job => job._id !== id));
-        console.log(`Job with ID: ${id} deleted successfully`);
+        console.log(`Job with ID: ${id} deleted successfully.`);
+        alert("Job deleted successfully.");
       } else {
+        // If the server response is not OK, revert state and show an error message
+        setJobs(previousJobs);
         console.error(`Failed to delete job with ID: ${id}. Status: ${response.status}`);
+        const errorMessage = await response.text();
+        alert(`Failed to delete job: ${errorMessage}`);
       }
-
     } catch (error) {
+      // Revert state and log the error in case of a fetch failure
+      setJobs(previousJobs);
       console.error("Error deleting job:", error);
+      alert("An error occurred while deleting the job. Please try again.");
     }
   };
-
 
 
 
@@ -85,31 +96,28 @@ const JobState = (props) => {
 
   // Edit Jobs 
   const editjob = async (id, jobTitle, jobDescription, jobSalary, jobType, jobCompany, jobRequirements) => {
-
     try {
-      const response = await fetch(`${HOST_URL}/api/${String(process.env.REACT_APP_JOBS_TAG)}/${String(process.env.REACT_APP_UPDATE_TAG)}/${id}`, {
-        method: 'PUT',  // Use PUT or PATCH here based on backend requirements
+      const response = await fetch(`${HOST_URL}/api/jobs/updatejob/${id}`, {
+        method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
-          'auth_token': localStorage.getItem('auth_token'),
+          'auth_token': localStorage.getItem('auth_token'), // Ensure token is included
         },
         body: JSON.stringify({ jobTitle, jobDescription, jobSalary, jobType, jobCompany, jobRequirements }),
       });
-
-      if (response.ok) {
-        setJobs(jobs.map(job =>
-          job._id === id
-            ? { ...job, jobTitle, jobDescription, jobSalary, jobType, jobCompany, jobRequirements }
-            : job
-        ));
-      } else {
+  
+      if (!response.ok) {
         console.error(`Failed to edit job with ID: ${id}. Status: ${response.status}`);
+        const errorData = await response.json();
+        console.error("Error details:", errorData);
+      } else {
+        const data = await response.json();
+        console.log("Edited Job:", data);
       }
     } catch (error) {
       console.error("Error editing job:", error);
     }
   };
-
 
 
 
@@ -146,6 +154,7 @@ const JobState = (props) => {
 
 
 export const fetchCompanyJobs = async (dispatch) => {
+  const HOST_URL = String(process.env.REACT_APP_API_BASE_URL);
   try {
     const response = await fetch(
       `${HOST_URL}/api/${String(process.env.REACT_APP_JOBS_TAG)}/${String(process.env.REACT_APP_COMPANYPROFILE)}`
@@ -158,6 +167,8 @@ export const fetchCompanyJobs = async (dispatch) => {
     console.error("Error fetching company jobs:", error);
   }
 };
+
+
 
 
 export default JobState;

@@ -6,7 +6,7 @@ import '../navbar.css';
 
 const NavBar = ({ isDarkMode, toggleDarkMode }) => {
 
-    const { isLoggedIn } = useContext(AuthContext); // Access isLoggedIn and logout
+    const { type, isLoggedIn } = useContext(AuthContext); // Access isLoggedIn and logout
     const navigate = useNavigate();
 
     const changeTitleInIframe = (newTitle) => {
@@ -17,7 +17,7 @@ const NavBar = ({ isDarkMode, toggleDarkMode }) => {
     };
 
     const goToLogoutPage = () => {
-        navigate('/logout'); 
+        navigate('/logout');
     };
 
     return (
@@ -44,7 +44,7 @@ const NavBar = ({ isDarkMode, toggleDarkMode }) => {
                             </ul>
                         </li>
                         <li className="nav-item me-3">
-                            <Link className="nav-link active" to="/profile">Profile</Link>
+                            <Link className="nav-link" to="/groups" onClick={() => changeTitleInIframe('On-Board NewsBreak')}>Groups</Link>
                         </li>
                         <li className="nav-item me-3">
                             <Link className="nav-link" to="/news" onClick={() => changeTitleInIframe('On-Board NewsBreak')}>News</Link>
@@ -55,6 +55,15 @@ const NavBar = ({ isDarkMode, toggleDarkMode }) => {
                         <li className="nav-item me-3">
                             <Link className="nav-link" to="/ChatBot" onClick={() => changeTitleInIframe('On-Board NewsBreak')}>ChatBot</Link>
                         </li>
+                        {type === 'company' ? (
+                            <li className="nav-item me-3">
+                                <Link className="nav-link active" to="/CompanyProfile">Company Profile</Link>
+                            </li>
+                        ) : (
+                            <li className="nav-item me-3">
+                                <Link className="nav-link" to="/Profile">Profile</Link>
+                            </li>
+                        )}
                     </ul>
                     <div className="form-check form-switch">
                         <input className="form-check-input" type="checkbox" role="switch" id="darkModeSwitch" checked={isDarkMode} onChange={toggleDarkMode} />

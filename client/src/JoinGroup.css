@@ -1,0 +1,139 @@
+.join-group-container {
+    padding: 20px;
+    max-width: 800px;
+    margin: 0 auto;
+    font-family: Arial, sans-serif;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.group-title {
+    text-align: center;
+    font-size: 28px;
+    font-weight: bold;
+    text-transform: uppercase;
+    margin-bottom: 20px;
+}
+
+.chat-window {
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    padding: 15px;
+    height: 400px;
+    overflow-y: auto;
+    background-color: #f9f9f9;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.chat-message {
+    background-color: #e9ecef;
+    padding: 10px;
+    border-radius: 5px;
+    margin-bottom: 5px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.message-time {
+    font-size: 12px;
+    color: gray;
+    align-self: flex-end;
+    margin-left: 10px;
+}
+
+.message-input {
+    display: flex;
+    gap: 10px;
+    align-items: flex-start;
+}
+
+.message-input textarea {
+    flex: 1;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 14px;
+    resize: none; /* Prevent resizing */
+    background-color: #f9f9f9;
+    color: #333;
+}
+
+
+.message-input input {
+    flex: 1;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 14px;
+}
+
+.message-input button {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    background-color: #007bff;
+    color: white;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+
+.message-input button:hover {
+    background-color: #0056b3;
+}
+
+.group-info {
+    text-align: right;
+    font-size: 14px;
+    font-weight: bold;
+}
+
+/* Dark Mode */
+.dark-mode {
+    background-color: #121212;
+    color: #ffffff;
+}
+
+
+.dark-mode .message-input textarea {
+    background-color: #1e1e1e;
+    border: 1px solid #333333;
+    color: #ffffff;
+}
+
+
+.dark-mode .chat-window {
+    background-color: #1e1e1e;
+    color: #ffffff;
+    border: 1px solid #333333;
+}
+
+.dark-mode .chat-message {
+    background-color: #333333;
+    color: #ffffff;
+}
+
+.dark-mode .message-input input {
+    background-color: #1e1e1e;
+    border: 1px solid #333333;
+    color: #ffffff;
+}
+
+.dark-mode .message-input button {
+    background-color: #1e90ff;
+}
+
+.dark-mode .message-input button:hover {
+    background-color: #1c86ee;
+}
+
+.dark-mode .group-info {
+    color: #bbbbbb;
+}

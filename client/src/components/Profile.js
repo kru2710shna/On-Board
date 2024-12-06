@@ -25,7 +25,7 @@ const Profile = ({ isDarkMode }) => {
                 setJobs(Array.isArray(jobsData.appliedJobs) ? jobsData.appliedJobs : []);
 
                 const groupsData = await fetchGroups();
-                console.log(groupsData)
+                //console.log(groupsData)
                 // setGroups(Array.isArray(groupsData.groups) ? groupsData.groups : []);
                 setGroups(Array.isArray(groupsData) ? groupsData : []);
 
@@ -71,7 +71,7 @@ const Profile = ({ isDarkMode }) => {
                             : 'linear-gradient(to right, #007bff, #6610f2)',
                     }}
                 >
-                    <h1 className="display-5">{user?.name}'s Profile</h1>
+                    <h1 className="display-5">{user?.name}'s Porfolio</h1>
                     <p className="lead mt-2">
                         {user.bio || 'Welcome to my profile!'}{' '}
                         <span className={`badge ${user.isPremiumUser ? 'bg-success' : 'bg-secondary'} ms-2`}>
@@ -139,7 +139,7 @@ const Profile = ({ isDarkMode }) => {
                     <hr className="my-4" />
 
                     {/* Add this part here */}
-                    {groups.length > 0 && (
+                    { (
                         <RelatedSection
                             title="Groups"
                             data={groups}

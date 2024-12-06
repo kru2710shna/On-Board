@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import '../SignUp.css'; // Import the updated CSS file
+import '../SignUp.css';
+import { createUser } from '../utils/userService'; // Import createUser from userService
 
 const SignUp = () => {
     const [credentials, setCredentials] = useState({
@@ -19,25 +20,14 @@ const SignUp = () => {
         }
 
         try {
-            const apiUrl = `${process.env.REACT_APP_API_BASE_URL || 'http://localhost:5001'}/api/${process.env.REACT_APP_AUTH_FOR_USER || 'user'}/${process.env.REACT_APP_CREATEUSER_TAG || 'createuser'}`;
-            const response = await fetch(apiUrl, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({ name, email, password, type: userType }),
-            });
+            const userDetails = { name, email, password, type: userType };
+            // eslint-disable-next-line
+            const response = await createUser(userDetails);
 
-            const res = await response.json();
-
-            if (response.ok) {
-                alert('Thank you for joining On-Board');
-                navigate('/login');
-            } else {
-                alert(`Signup failed: ${res.errors ? res.errors.map(err => err.msg).join(", ") : res.error}`);
-            }
+            alert('Thank you for joining On-Board');
+            navigate('/login');
         } catch (error) {
-            alert('Signup failed: ' + error.message);
+            alert(`Signup failed: ${error.message}`);
         }
     };
 
@@ -116,6 +106,7 @@ const SignUp = () => {
                                 required
                             />
                         </div>
+                        
                         <div className="mb-3">
                             <label htmlFor="userType">User Type:</label>
                             <select
