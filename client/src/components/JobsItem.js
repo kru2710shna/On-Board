@@ -1,9 +1,11 @@
 import React from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import '@fortawesome/fontawesome-free/css/all.min.css';
+import { useNavigate } from 'react-router-dom';
 
-const JobsItem = ({ job, editjob,  deleteJob, userType }) => {
+const JobsItem = ({ job, editjob, deleteJob, ApplyJob, userType }) => {
 
+  const navigate = useNavigate();
   const handleDelete = async () => {
     if (window.confirm(`Are you sure you want to delete the job: "${job.jobTitle}"?`)) {
       try {
@@ -20,6 +22,15 @@ const JobsItem = ({ job, editjob,  deleteJob, userType }) => {
     editjob(job); // Trigger the edit logic from the parent component
   };
 
+  const handleApply = async () => {
+    try {
+      navigate('/application'); // Navigate to the application form
+      await ApplyJob(job._id); // Call ApplyJob with the job ID
+    } catch (error) {
+      console.error('Error applying for job:', error.message);
+    }
+  };
+
   return (
     <div className="card">
       <div className="card-body">
@@ -29,7 +40,7 @@ const JobsItem = ({ job, editjob,  deleteJob, userType }) => {
         <p className="card-text"><strong>Salary:</strong> ${job.jobSalary}</p>
 
         <div className="d-flex justify-content-center mt-3">
-          {userType === 'Company' && (
+          {userType === 'Company' ? (
             <>
               <button className="btn btn-outline-danger mx-2" onClick={handleDelete}>
                 <i className="fa-solid fa-trash"></i> Delete
@@ -38,6 +49,10 @@ const JobsItem = ({ job, editjob,  deleteJob, userType }) => {
                 <i className="fa-solid fa-pen-to-square"></i> Edit
               </button>
             </>
+          ) : (
+            <button className="btn btn-outline-success mx-2" onClick={handleApply}>
+              <i className="fa-solid fa-briefcase"></i> Apply
+            </button>
           )}
         </div>
       </div>

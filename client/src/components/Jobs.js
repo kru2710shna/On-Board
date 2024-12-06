@@ -2,7 +2,6 @@
 import React, { useContext, useEffect, useRef, useState } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import '../Jobs.css';
-
 import JobContext from '../context/Jobs/jobsContext';
 import AuthContext from '../context/Auth/authContext';
 import JobsItem from './JobsItem';
@@ -10,7 +9,7 @@ import JobsItem from './JobsItem';
 const Jobs = () => {
   const jobContext = useContext(JobContext);
 
-  const { jobs, getalljobs, addJob, editjob, deletejob } = jobContext;
+  const { jobs, getalljobs, addJob, editjob, deletejob , ApplyJob } = jobContext;
   const { type} = useContext(AuthContext);
 
   const [currentJob, setCurrentJob] = useState(null);
@@ -318,6 +317,7 @@ const Jobs = () => {
               editjob={handleUpdateJob}
               deleteJob={handleDeleteJob}
               userType={type}
+              ApplyJob={ApplyJob}
             />
           </div>
         ))}
