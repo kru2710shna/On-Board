@@ -15,7 +15,7 @@ const userSchema = new Schema(
     },
     bio: {
       type: String,
-      required: true,
+      //required: true,
     },
     password: {
       type: String,
@@ -97,10 +97,10 @@ const userSchema = new Schema(
       {
         jobId: { type: Schema.Types.ObjectId, ref: 'Job', required: true },
       },
-    ],
+    ]
   },
   {
-    timestamps: true, // Adds createdAt and updatedAt timestamps automatically
+    timestamps: true,
   }
 );
 

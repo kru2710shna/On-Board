@@ -1,12 +1,11 @@
 import mongoose from 'mongoose';
 const { Schema } = mongoose;
 
-
 const jobsSchema = new Schema(
   {
     user: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: "user",
+      ref: "User",
       required: true
     },
     jobTitle: {
@@ -24,6 +23,9 @@ const jobsSchema = new Schema(
     date: {
       type: Date,
       default: Date.now
+    },
+    jobRequirements: {
+      type: String
     },
     jobType: {
       type: String,

@@ -20,6 +20,8 @@ import CompanyProfile from './components/Profile_Page_Company.js';
 import Group from './components/Groups.js';
 import CreateGroup from './components/CreateGroup.js';
 import JoinGroup from './components/JoinGroup.js';
+import Event from './components/Event.js'
+import RSVP from './components/RSVP.js';
 
 
 function App() {
@@ -54,6 +56,7 @@ function App() {
                     {/* Private Routes */}
                     <Route path="/profile" element={isLoggedIn ? (type === "company" ? <CompanyProfile isDarkMode={isDarkMode} /> : <Profile isDarkMode={isDarkMode} />) : <Navigate to="/" replace />} />
                     <Route path="/groups" element={isLoggedIn ? <Group isDarkMode={isDarkMode} /> : <Navigate to="/" replace />} />
+                    <Route path="/event" element={isLoggedIn ? <Event isDarkMode={isDarkMode} /> : <Navigate to="/" replace />} />
                     <Route path="/jobs" element={isLoggedIn ? <Jobs isDarkMode={isDarkMode} /> : <Navigate to="/" replace />} />
                     <Route path="/addjob" element={isLoggedIn ? <AddJob isDarkMode={isDarkMode} /> : <Navigate to="/" replace />} />
                     <Route path="/editprofile" element={isLoggedIn ? <EditProfile isDarkMode={isDarkMode} /> : <Navigate to="/" replace />} />
@@ -61,6 +64,7 @@ function App() {
                     <Route path="/ChatBot" element={isLoggedIn ? <ChatBot isDarkMode={isDarkMode} /> : <Navigate to="/" replace />} />
                     <Route path="/Dashboard" element={isLoggedIn ? <Dashboard isDarkMode={isDarkMode} /> : <Navigate to="/" replace />} />
                     <Route path="/CompanyProfile" element={isLoggedIn ? <CompanyProfile isDarkMode={isDarkMode} /> : <Navigate to="/" replace />} />
+                    <Route path="/rsvp" element={<RSVP />} />
                     <Route path="/join-group/:groupId" element={<JoinGroup isDarkMode={isDarkMode} />} />
                     <Route path="/create-group" element={<CreateGroup isDarkMode={isDarkMode} />} />
                 </Routes>

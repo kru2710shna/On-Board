@@ -36,18 +36,22 @@ export const createGroup = async (req, res) => {
         return res.status(400).json({ errors: errors.array() });
     }
 
-    const { name, description } = req.body;
+    const { name, description, members } = req.body;
 
     if (req.userType === 'Company') {
         return res.status(403).json({ error: "Not authorized to create groups." });
     }
 
     try {
+        // Validate and ensure `members` is an array of valid user IDs
+        const memberSet = new Set(members || []); // Use a Set to handle duplicates
+        memberSet.add(req.user.id); // Add the creator to the members
+
         const group = new Groups({
             name,
             description,
             createdBy: req.user.id, // Use req.user.id from fetchUser middleware
-            members: [req.user.id]  // Add the creator as the first member
+            members: Array.from(memberSet), // Convert Set back to an array
         });
 
         const savedGroup = await group.save();
@@ -75,6 +79,78 @@ export const joinGroup= async (req, res) => {
         res.json(group);
     } catch (error) {
         console.error('Error joining group:', error);
+        res.status(500).json({ error: 'Internal Server Error' });
+    }
+};
+
+
+export const sendMessageToGroup = async (req, res) => {
+    try {
+        const { groupId } = req.params;
+        const { text } = req.body;
+
+        const group = await Groups.findById(groupId);
+        if (!group) {
+            return res.status(404).json({ error: 'Group not found' });
+        }
+
+        const newMessage = {
+            text,
+            senderId: req.user.id,
+            senderName: req.user.name, // Assuming `name` is part of the user model
+            timestamp: new Date(),
+        };
+
+        group.messages = group.messages || []; // Ensure messages array exists
+        group.messages.push(newMessage);
+
+        await group.save();
+        res.json(newMessage);
+    } catch (error) {
+        console.error('Error sending message:', error);
+        res.status(500).json({ error: 'Internal Server Error' });
+    }
+};
+
+
+export const deleteGroup = async (req, res) => {
+    try {
+        const { groupId } = req.params;
+        const userId = req.user.id;
+
+        const group = await Groups.findById(groupId);
+        if (!group) {
+            return res.status(404).json({ error: 'Group not found' });
+        }
+
+        // Only allow the creator to delete the group
+        if (group.createdBy.toString() !== userId) {
+            return res.status(403).json({ error: 'Not authorized to delete this group' });
+        }
+
+        await Groups.findByIdAndDelete(groupId);
+        res.json({ message: 'Group deleted successfully' });
+    } catch (error) {
+        console.error('Error deleting group:', error);
+        res.status(500).json({ error: 'Internal Server Error' });
+    }
+};
+
+
+// Controller to get group details
+export const getGroupDetails = async (req, res) => {
+    try {
+        const { groupId } = req.params;
+
+        // Find the group and populate member details
+        const group = await Groups.findById(groupId).populate('members', 'name email');
+        if (!group) {
+            return res.status(404).json({ error: 'Group not found' });
+        }
+
+        res.json(group); // Return the group details
+    } catch (error) {
+        console.error('Error fetching group details:', error);
         res.status(500).json({ error: 'Internal Server Error' });
     }
 };
