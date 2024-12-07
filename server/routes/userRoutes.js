@@ -5,7 +5,7 @@ import jwt from 'jsonwebtoken';
 import fetchUser from '../middlewares/fetchUser.js';  // Use ES Module import
 import User from '../models/User.js';  // Use ES Module import
 const router = express.Router();
-import Jobs from '../models/Jobs.js';
+
 
 
 // Route-1 Create User - POST "/api/user/createuser" - No Login Required 
@@ -162,15 +162,19 @@ router.put('/edituser', [
   body('bio', 'Bio must be at least 5 characters').optional().isLength({ min: 5 }),
   body('email', 'Enter a valid email').optional().isEmail(),
   body('type').optional().isIn(['Student', 'Recruiter', 'Company']).withMessage('Type must be either Student, Recruiter, or Company'),
+  body('experience.*.company', 'Company name is required').optional().notEmpty(),
+  body('experience.*.position', 'Position is required').optional().notEmpty(),
+  body('education.*.institution', 'Institution name is required').optional().notEmpty(),
 ], fetchUser, async (req, res) => {
   // Handle validation errors
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
+    console.error('Validation Errors:', errors.array());
     return res.status(400).json({ errors: errors.array() });
   }
 
   try {
-    const { name, email, type, bio, experience, education, certifications, awards, recommendations, jobs } = req.body;
+    const { name, email, type, bio, experience, education, certifications, awards, recommendations, jobs, groups, } = req.body;
     const userID = req.user.id;
 
     // Check if the email already exists and is not the same as the user's current email
@@ -188,38 +192,48 @@ router.put('/edituser', [
     if (type) updatedFields.type = type;
     if (bio) updatedFields.bio = bio;
     if (experience) updatedFields.experience = experience.map(exp => ({
-      company: exp.company,
-      position: exp.position,
-      startDate: exp.startDate,
+      company: exp.company || "",
+      position: exp.position || "",
+      startDate: exp.startDate || null,
       endDate: exp.endDate || null,
       description: exp.description || "",
     }));
+
     if (education) updatedFields.education = education.map(edu => ({
-      institution: edu.institution,
-      degree: edu.degree,
+      institution: edu.institution || "",
+      degree: edu.degree || "",
       fieldOfStudy: edu.fieldOfStudy || "",
-      startDate: edu.startDate,
+      startDate: edu.startDate || null,
       endDate: edu.endDate || null,
     }));
+
     if (certifications) updatedFields.certifications = certifications.map(cert => ({
-      title: cert.title,
+      title: cert.title || "",
       issuedBy: cert.issuedBy || "",
-      issueDate: cert.issueDate,
+      issueDate: cert.issueDate || null,
       expirationDate: cert.expirationDate || null,
     }));
+
     if (awards) updatedFields.awards = awards.map(award => ({
-      title: award.title,
+      title: award.title || "",
       issuedBy: award.issuedBy || "",
-      dateReceived: award.dateReceived,
+      dateReceived: award.dateReceived || null,
       description: award.description || "",
     }));
+
     if (recommendations) updatedFields.recommendations = recommendations.map(rec => ({
-      recommenderName: rec.recommenderName,
+      recommenderName: rec.recommenderName || "",
       position: rec.position || "",
       relationship: rec.relationship || "",
       message: rec.message || "",
-      dateGiven: rec.dateGiven,
+      dateGiven: rec.dateGiven || null,
     }));
+
+    if (jobs) updatedFields.jobs = jobs.map(job => ({
+      jobId: job.jobId || "",
+    }));
+
+    if (groups) updatedFields.groups = groups;
     if (jobs) updatedFields.jobs = jobs.map(job => ({
       jobId: job.jobId,
     }));
@@ -236,6 +250,8 @@ router.put('/edituser', [
     res.status(500).send("Internal Server Error");
   }
 });
+
+
 
 
 

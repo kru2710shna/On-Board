@@ -9,16 +9,21 @@ const router = express.Router();  // Initialize the router here
 // ROUTE -1 Get All the Jobs: GET "/api/jobs/fetchalljobs" Login required
 router.get('/fetchalljobs', async (req, res) => {
     try {
+        // Fetch all jobs from the database
         const jobs = await Jobs.find();
-        if (jobs.length === 0) {
+
+        // Check if no jobs are available
+        if (!jobs || jobs.length === 0) {
             return res.status(404).json({ msg: "No jobs available at the moment." });
         }
-        res.json(jobs)
+
+        // Return the list of jobs
+        res.status(200).json(jobs);
     } catch (error) {
-        console.error(error.message);
-        res.status(500).send("Internal Server Error");
+        console.error("Error fetching all jobs:", error.message);
+        res.status(500).json({ error: "Internal Server Error" });
     }
-})
+});
 
 // ROUTE -2 Add Jobs: POST "/api/jobs/addjob" Login required
 router.post('/addjob', fetchUser, [
@@ -109,10 +114,6 @@ router.get('/profile', fetchUser, async (req, res) => {
         const appliedJobs = await Jobs.find({ applicants: req.user.id })
             .populate({ path: 'user', select: 'jobCompany jobTitle jobType' })
             .populate({ path: 'applicants', select: 'name email' });
-
-        if (appliedJobs.length === 0) {
-            return res.status(404).json({ msg: "No jobs applied yet" });
-        }
 
         res.json({ appliedJobs });
     } catch (error) {

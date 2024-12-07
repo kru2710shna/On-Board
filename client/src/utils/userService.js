@@ -1,44 +1,59 @@
 // Calls -> /api/user/fetchuser -> Returns User Profile
-const getProfile = async () => {
-    let HOST_URL = String(process.env.REACT_APP_API_BASE_URL);
 
-    // Retrieve auth_token from localStorage (or another storage mechanism)
+
+const getProfile = async () => {
+    const HOST_URL = String(process.env.REACT_APP_API_BASE_URL);
+
+    // Retrieve auth_token from localStorage
     const authToken = localStorage.getItem('auth_token');
 
     if (!authToken) {
-        throw new Error('No authentication token found. Please log in again.');
+        console.error('No authentication token found. Redirecting to login.');
+        alert('Please log in again.');
+        return null; // Return null or redirect logic
     }
 
-    // TRACK CONSOLE
-    console.log('[Entered Profile.js/userService.js/getProfile] Fetching from:', `${HOST_URL}/api/user/${process.env.REACT_APP_GETUSERPROFILE_TAG}`);
+    try {
+        console.log('[Entered Profile.js/userService.js/getProfile] Fetching from:', 
+                    `${HOST_URL}/api/user/fetchuser`)
 
+        const response = await fetch(
+            `${HOST_URL}/api/${String(process.env.REACT_APP_AUTH_FOR_USER)}/${String(process.env.REACT_APP_GETUSERPROFILE_TAG)}`, 
+            {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'auth_token': authToken,
+                },
+            }
+        );
 
-    const response = await fetch(`${HOST_URL}/api/${String(process.env.REACT_APP_AUTH_FOR_USER)}/${String(process.env.REACT_APP_GETUSERPROFILE_TAG)}`, {
-        method: 'GET',
-        headers: {
-            'Content-Type': 'application/json',
-            'auth_token': authToken,
-        },
-    });
+        if (!response.ok) {
+            const errorData = await response.json();
+            console.error('Failed to fetch user details:', errorData);
+            throw new Error(errorData.error || 'Unknown error occurred');
+        }
 
-    if (!response.ok) {
-        throw new Error('Failed to fetch user details');
+        const userData = await response.json();
+        console.log('[Profile Fetched Successfully]:', userData);
+        return userData; // Return the fetched user profile data
+    } catch (error) {
+        console.error('Error fetching user profile:', error.message);
+        alert('Failed to load user profile. Please try again later.');
+        return null;
     }
-
-    return response.json();
 };
 
 
 // Calls -> /api/user/edituser -> Returns Updated User Profile
 const updateProfile = async (userDetails) => {
     const authToken = localStorage.getItem('auth_token');
-    const HOST_URL = String(process.env.REACT_APP_API_BASE_URL);
+    const HOST_URL = process.env.REACT_APP_API_BASE_URL;
 
-    // TRACK CONSOLE
-    console.log('[Entered Profile.js/userService.js/updateProfile] Fetching from:', `${HOST_URL}/api/${process.env.REACT_APP_AUTH_FOR_USER}/${process.env.REACT_APP_EDITUSERPROFILE_TAG}`);
+    console.log('Payload sent to backend:', userDetails);
 
     try {
-        const response = await fetch(`${HOST_URL}/api/${String(process.env.REACT_APP_AUTH_FOR_USER)}/${String(process.env.REACT_APP_EDITUSERPROFILE_TAG)}`, {
+        const response = await fetch(`${HOST_URL}/api/user/edituser`, {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json',
@@ -47,37 +62,30 @@ const updateProfile = async (userDetails) => {
             body: JSON.stringify(userDetails),
         });
 
-        // Check if the response is successful
         if (!response.ok) {
-            // Parse the response to get error message from the backend
             const errorData = await response.json();
-            console.error('Error updating user profile:', errorData); // Log error details
-            throw new Error(errorData.message || 'Failed to update user details');
+            console.error('Error response from server:', errorData);
+            throw new Error(errorData.error || 'Failed to update profile');
         }
 
-        return response.json();
+        return await response.json();
     } catch (error) {
-        console.error('Error during the profile update request:', error);
-        throw error; // Re-throw error after logging it
+        console.error('Error during profile update:', error.message);
+        throw error;
     }
 };
 
 
 
 
+
 const fetchJobs = async () => {
+    const HOST_URL = process.env.REACT_APP_API_BASE_URL;
     try {
-        const HOST_URL = process.env.REACT_APP_API_BASE_URL;
         const authToken = localStorage.getItem('auth_token');
 
-        if (!authToken) {
-            throw new Error('Authentication token not found. Please log in.');
-        }
-
-        // TRACK CONSOLE
-        console.log('[Entered Profile.js/userService.js/fetchJobs] Fetching from:', `${HOST_URL}/api/${process.env.REACT_APP_USERS_JOBS}`);
-        const response = await fetch(`${HOST_URL}/api/${process.env.REACT_APP_JOBS_TAG}/${process.env.REACT_APP_USERS_JOBS}`, {
-            
+        console.log('[Entered Profile.js/userService.js/fetchJobs] Fetching from:', `${HOST_URL}/api/jobs/profile`);
+        const response = await fetch(`${HOST_URL}/api/jobs/profile`, {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',

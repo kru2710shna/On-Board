@@ -6,6 +6,8 @@ import RelatedSection from '../components/RelatedSection.js'
 import 'bootstrap/dist/css/bootstrap.min.css';
 import '../Profile.css'
 
+
+
 const Profile = ({ isDarkMode }) => {
     const navigate = useNavigate();
     const [user, setUser] = useState(null);
@@ -14,18 +16,23 @@ const Profile = ({ isDarkMode }) => {
     const [jobs, setJobs] = useState([]);
     const [groups, setGroups] = useState([]);
 
+
     useEffect(() => {
         const fetchUserDetails = async () => {
             try {
                 const userData = await getProfile();
+                console.log("Get Profile Called")
+                console.log(userData);
                 setUser(userData);
 
                 const jobsData = await fetchJobs();
-                //console.log(jobsData.appliedJobs);
+                console.log("Fetch Jobs Called")
+                console.log(jobsData.appliedJobs);
                 setJobs(Array.isArray(jobsData.appliedJobs) ? jobsData.appliedJobs : []);
 
                 const groupsData = await fetchGroups();
-                //console.log(groupsData)
+                console.log("Fetch Groups Called")
+                console.log(groupsData)
                 // setGroups(Array.isArray(groupsData.groups) ? groupsData.groups : []);
                 setGroups(Array.isArray(groupsData) ? groupsData : []);
 
@@ -139,7 +146,7 @@ const Profile = ({ isDarkMode }) => {
                     <hr className="my-4" />
 
                     {/* Add this part here */}
-                    { (
+                    {(
                         <RelatedSection
                             title="Groups"
                             data={groups}

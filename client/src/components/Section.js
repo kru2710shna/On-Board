@@ -45,7 +45,7 @@ const Section = ({ title, data, fields }) => {
                             // Handle non-date fields
                             return (
                                 <p key={idx} className="mb-2">
-                                    <strong>{capitalize(field)}:</strong> {item[field] || 'No data available'}
+                                    <strong>{capitalize(field)}:</strong> {item[field] || 'N/A'}
                                 </p>
                             );
                         })}

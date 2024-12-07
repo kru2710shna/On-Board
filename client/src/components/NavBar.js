@@ -20,6 +20,8 @@ const NavBar = ({ isDarkMode, toggleDarkMode }) => {
         navigate('/logout');
     };
 
+
+    
     return (
         <nav className={`navbar navbar-expand-lg ${isDarkMode ? 'navbar-dark bg-dark' : 'navbar-light bg-light'}`}>
             <div className="container-fluid">
@@ -55,7 +57,7 @@ const NavBar = ({ isDarkMode, toggleDarkMode }) => {
                         <li className="nav-item me-3">
                             <Link className="nav-link" to="/ChatBot" onClick={() => changeTitleInIframe('On-Board NewsBreak')}>ChatBot</Link>
                         </li>
-                        {type === 'company' ? (
+                        {type?.trim().toLowerCase() === 'company' ? (
                             <li className="nav-item me-3">
                                 <Link className="nav-link active" to="/CompanyProfile">Company Profile</Link>
                             </li>
