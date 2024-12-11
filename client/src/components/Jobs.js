@@ -51,18 +51,17 @@ const Jobs = () => {
     if (currentJob) {
       const { _id, jobTitle, jobDescription, jobSalary, jobType, jobCompany, jobRequirements } = currentJob;
   
-      console.log("Editing job with ID:", _id);
-      console.log("Payload:", { jobTitle, jobDescription, jobSalary, jobType, jobCompany, jobRequirements });
-  
       try {
-        await editjob(_id.trim(), jobTitle, jobDescription, jobSalary, jobType, jobCompany, jobRequirements);
-        setCurrentJob(null);
-        await getalljobs();
+        await editjob(_id.trim(), currentJob);
+        setCurrentJob(null); // Reset current job after successful edit
+        await getalljobs(); // Refresh jobs list
       } catch (error) {
         console.error("Error submitting edited job:", error);
+        alert("Failed to update the job. Please try again.");
       }
     }
-  }
+  };
+  
   const handleAddSubmit = async () => {
     try {
       // Check for required fields
@@ -73,7 +72,7 @@ const Jobs = () => {
       }
 
       await addJob(newJob);
-
+      
       // Reset the form fields after successful submission
       setNewJob({
         jobTitle: '',
@@ -86,8 +85,10 @@ const Jobs = () => {
 
       // Refresh job list
       await getalljobs();
+      alert('Job added successfully.');
     } catch (error) {
       console.error('Error adding job:', error);
+      alert('Failed to add the job. Please try again.');
     }
   };
 
@@ -182,7 +183,7 @@ const Jobs = () => {
               <input
                 type="text"
                 name="jobRequirements"
-                value={currentJob?.jobCompany || ''}
+                value={currentJob?.jobRequirements || ''}
                 onChange={handleEditChange}
                 className="form-control mb-2"
                 placeholder="Job Requirements"

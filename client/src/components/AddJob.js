@@ -15,16 +15,36 @@ const AddJob = ({ isDarkMode }) => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
+      
+        // Basic Validation
+        if (jobDetails.jobTitle.length < 5) {
+          alert("Job Title must be at least 5 characters long.");
+          return;
+        }
+        if (jobDetails.jobDescription.length < 10) {
+          alert("Job Description must be at least 10 characters long.");
+          return;
+        }
+        if (!Number.isInteger(Number(jobDetails.jobSalary))) {
+          alert("Salary must be a valid number.");
+          return;
+        }
+        if (jobDetails.jobType.length < 5 || jobDetails.jobCompany.length < 5 || jobDetails.jobRequirements.length < 5) {
+          alert("All fields must meet the minimum character requirement.");
+          return;
+        }
+      
         addJob(jobDetails);
+      
         setJobDetails({
-            jobTitle: '',
-            jobDescription: '',
-            jobCompany: '',
-            jobSalary: '',
-            jobType: '',
-            jobRequirements: ''
+          jobTitle: '',
+          jobDescription: '',
+          jobCompany: '',
+          jobSalary: '',
+          jobType: '',
+          jobRequirements: ''
         });
-    };
+      };
 
     const handleChange = (e) => {
         setJobDetails({ ...jobDetails, [e.target.name]: e.target.value });

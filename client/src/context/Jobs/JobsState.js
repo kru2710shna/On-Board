@@ -14,7 +14,9 @@ const JobState = (props) => {
       console.error("Not authorized to add jobs.");
       return;
     }
-
+  
+    console.log("Payload being sent to API:", newJob); // Log the payload
+  
     try {
       const response = await fetch(`${HOST_URL}/api/${String(process.env.REACT_APP_JOBS_TAG)}/${String(process.env.REACT_APP_ADDJOBS_TAG)}`, {
         method: 'POST',
@@ -24,12 +26,14 @@ const JobState = (props) => {
         },
         body: JSON.stringify(newJob),
       });
-
+  
       if (!response.ok) {
         throw new Error(`Failed to add job: ${response.statusText}`);
       }
-
+  
       const addedJob = await response.json();
+      console.log("Added Job:", addedJob);
+  
       setJobs((prevJobs) => [...prevJobs, addedJob]);
     } catch (error) {
       console.error("Error adding job:", error);
@@ -67,6 +71,13 @@ const JobState = (props) => {
 
   // Edit Job
   const editjob = async (id, updatedJob) => {
+    if (!updatedJob || Object.keys(updatedJob).length === 0) {
+      console.error('Invalid payload for update');
+      return;
+    }
+  
+    console.log('Payload before stringifying:', updatedJob);
+  
     try {
       const response = await fetch(`${HOST_URL}/api/jobs/updatejob/${id}`, {
         method: 'PUT',
@@ -76,19 +87,29 @@ const JobState = (props) => {
         },
         body: JSON.stringify(updatedJob),
       });
-
+  
       if (!response.ok) {
-        throw new Error(`Failed to edit job: ${response.statusText}`);
+        throw new Error(
+          `Failed to edit job. Status: ${response.status}, Message: ${response.statusText}`
+        );
       }
-
+  
       const updatedData = await response.json();
-      setJobs((prevJobs) =>
-        prevJobs.map((job) => (job._id === id ? updatedData : job))
-      );
+  
+      if (!updatedData || !updatedData.id) {
+        console.error('Invalid response data:', updatedData);
+        return;
+      }
+  
+      console.log('Updated Job:', updatedData);
+      // Optionally: Call a function to update the UI or state
+      // onUpdateSuccess(updatedData);
     } catch (error) {
-      console.error("Error editing job:", error);
+      console.error('Error editing job:', error);
     }
   };
+    
+    
 
   // Fetch All Jobs
   const getalljobs = useCallback(async () => {
@@ -135,7 +156,6 @@ const JobState = (props) => {
       }
 
       const data = await response.json();
-      alert(data.message || "Successfully applied for the job.");
     } catch (error) {
       console.error("Error applying for job:", error);
       alert(error.message);

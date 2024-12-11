@@ -64,6 +64,7 @@ router.post('/addjob', fetchUser, [
 
 // ROUTE -3 Update Jobs: PUT "/api/jobs/updatejob" Login requiredrouter.put('/updatejob/:id', fetchUser, async (req, res) => {
     router.put('/updatejob/:id', fetchUser, async (req, res) => {
+        console.log('Received Payload:', req.body);
         const { id } = req.params;
         const { jobCompany, jobDescription, jobRequirements, jobSalary, jobTitle, jobType } = req.body;
     

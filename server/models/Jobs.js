@@ -25,7 +25,7 @@ const jobsSchema = new Schema(
       default: Date.now
     },
     jobRequirements: {
-      type: String
+       type: [String], required: true , 
     },
     jobType: {
       type: String,

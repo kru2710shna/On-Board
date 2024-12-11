@@ -252,7 +252,24 @@ router.put('/edituser', [
 });
 
 
+// Route-7 Logout User - POST "/api/user/logout" - Login Required
+router.post('/logout', fetchUser, async (req, res) => {
+  try {
+    const authToken = req.header('auth_token');
+    
+    if (!authToken) {
+      return res.status(401).json({ error: "No token provided, authorization denied" });
+    }
 
+    // If using a token blacklist mechanism, add the token to the blacklist here
+    // e.g., await Blacklist.add(authToken);
+
+    res.json({ success: true, message: "Logged out successfully" });
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send("Internal Server Error");
+  }
+});
 
 
 export default router;
