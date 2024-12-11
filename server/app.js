@@ -11,13 +11,13 @@ const app = express();
 app.use(express.json());
 
 // Configure CORS
-// app.use(cors({
-//   origin: 'http://localhost:3000', // Allow requests only from the frontend
-//   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
-//   allowedHeaders: ['Content-Type', 'Authorization', 'auth_token'], // Allow required headers
-//   credentials: true, // Allow cookies or credentials
-// }));
-app.use(cors());
+app.use(cors({
+  origin: 'http://localhost:3000', // Allow requests only from the frontend
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization', 'auth_token'], // Allow required headers
+  credentials: true, // Allow cookies or credentials
+}));
+// app.use(cors());
 
 
 // Connect to MongoDB
