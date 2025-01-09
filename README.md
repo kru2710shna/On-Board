@@ -1,70 +1,116 @@
-# Getting Started with Create React App
+# On-Board Application
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## Application Title
+**On-Board - Your Comprehensive Job and Group Management Platform**
 
-## Available Scripts
+## Description
+On-Board is a full-stack application designed to streamline job applications, group management, and networking for students, recruiters, and companies. This platform provides features like job posting, group creation, subscription-based services, and secure user authentication. It is built using React for the frontend and Node.js with Express for the backend, ensuring a seamless and responsive user experience.
 
-In the project directory, you can run:
+---
 
-### `npm start`
+## Folder and File Mapping
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+### Root Directory
+- **README.md**: Documentation for the project.
+- **client**: Contains the frontend React application.
+- **server**: Contains the backend Node.js application.
+- **package.json**: Lists dependencies and scripts for the entire project.
+- **package-lock.json**: Auto-generated file for locking dependencies.
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+### Frontend Directory (`client`)
+#### Folders and Files:
+- **build**: Contains production-ready files after running `npm run build`.
+- **node_modules**: Holds all frontend dependencies.
+- **public**: Contains public assets like `index.html` and static files.
+- **src**: Source code for the React application.
+  - **components**: React components for the UI.
+  - **context**: Context API for managing global state.
+  - **utils**: Utility functions for reusable logic.
+  - **App.js**: Main component that renders the application.
+  - **index.js**: Entry point of the React application.
 
-### `npm test`
+#### Key Files in `components`
+- **NavBar.js**: Navigation bar component.
+- **Jobs.js**: Displays job postings.
+- **Groups.js**: Manages user groups.
+- **ChatBot.js**: Interactive chatbot for job-related queries.
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+### Backend Directory (`server`)
+#### Folders and Files:
+- **app.js**: Main server file to set up the backend.
+- **config.js**: Configuration settings for the server.
+- **db.js**: Handles MongoDB connection.
+- **middlewares**: Middleware functions for authentication and request handling.
+- **models**: Database schema definitions.
+- **routes**: Defines API endpoints.
+- **controllers**: Contains logic for handling API requests.
 
-### `npm run build`
+#### Key Files in `controllers`
+- **chatController.js**: Handles chat-related functionalities.
+- **groupController.js**: Manages group creation and interaction.
+- **subscriptionController.js**: Handles subscription payments.
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+---
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+## How to Start the Application
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+### Frontend
+```bash
+cd client
+npm start # For development mode
+# or
+npm run dev # For development with additional features
+```
 
-### `npm run eject`
+### Backend
+```bash
+cd server
+nodemon app.js # Automatically restarts the server on changes
+```
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+---
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+## Structure Flow Diagram
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+```plaintext
+Frontend (React)
+  |
+  --> Components (NavBar, Jobs, Groups, ChatBot, etc.)
+  --> Context (Auth, Groups, Jobs)
+  --> Utils (Utility functions)
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+Backend (Node.js + Express)
+  |
+  --> Routes (API endpoints for Jobs, Users, Groups, etc.)
+  --> Controllers (Business logic)
+  --> Models (Database schemas)
+  --> Middlewares (Authentication and validation)
+```
 
-## Learn More
+---
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+## GitHub Repository
+[On-Board GitHub Repository](https://github.com/kru2710shna/On-Board)
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+---
 
-### Code Splitting
+## Dependencies Used
+### Frontend Dependencies
+- **react-router-dom**: Provides dynamic routing in the React application.
+- **react-stripe-checkout**: Integrates Stripe for payment processing.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+### Backend Dependencies
+- **express**: Server framework for handling HTTP requests.
+- **mongoose**: ODM for MongoDB.
+- **cors**: Enables cross-origin requests.
+- **helmet**: Enhances app security by setting HTTP headers.
+- **morgan**: Logs HTTP requests for debugging.
+- **stripe**: Handles backend Stripe payment processing.
 
-### Analyzing the Bundle Size
+---
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+## Additional Notes
+- Ensure MongoDB is running locally or connected to a cloud instance.
+- Use `.env` to store sensitive information like API keys and database URIs.
 
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+---
