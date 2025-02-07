@@ -1,6 +1,6 @@
 import React from 'react';
 import capitalize from '../utils/capitalize';
-import '../Section.css';  // Corrected path to the CSS file
+import '../Section.css';  
 
 const Section = ({ title, data, fields }) => {
     if (!data || data.length === 0) {

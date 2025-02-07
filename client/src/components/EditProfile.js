@@ -26,7 +26,19 @@ const EditProfile = () => {
         const fetchUserDetails = async () => {
             try {
                 const data = await getProfile();
-                setUserDetails(data);
+                setUserDetails({
+                    name: data.name ?? '',
+                    email: data.email ?? '',
+                    bio: data.bio ?? '',
+                    experience: Array.isArray(data.experience) ? data.experience : [],
+                    education: Array.isArray(data.education) ? data.education : [],
+                    classes: Array.isArray(data.classes) ? data.classes : [],
+                    certifications: Array.isArray(data.certifications) ? data.certifications : [],
+                    awards: Array.isArray(data.awards) ? data.awards : [],
+                    recommendations: Array.isArray(data.recommendations) ? data.recommendations : [],
+                    groups: data.groups ?? '',
+                    jobs: data.jobs ?? '',
+                });
             } catch (error) {
                 setMessage('Failed to load profile data');
                 console.error('Error fetching user details:', error);

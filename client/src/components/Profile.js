@@ -5,12 +5,12 @@ import Section from '../components/Section.js';
 import RelatedSection from '../components/RelatedSection.js'
 import 'bootstrap/dist/css/bootstrap.min.css';
 import '../Profile.css'
-
+import profileimage from '../components/8847419.png'
 
 
 const Profile = ({ isDarkMode }) => {
     const navigate = useNavigate();
-    const [user, setUser] = useState(null);
+    const [user, setUser] = useState({});
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
     const [jobs, setJobs] = useState([]);
@@ -22,7 +22,14 @@ const Profile = ({ isDarkMode }) => {
             try {
                 const userData = await getProfile();
                 console.log("Get Profile Called")
-                console.log(userData);
+                console.log("Fetched User Data:", userData);
+
+                if (!userData || Object.keys(userData).length === 0) {
+                    console.error("❌ User data is missing or empty.");
+                    return;
+                }
+
+
                 setUser(userData);
 
                 const jobsData = await fetchJobs();
@@ -80,9 +87,9 @@ const Profile = ({ isDarkMode }) => {
                 >
                     <h1 className="display-5">{user?.name}'s Porfolio</h1>
                     <p className="lead mt-2">
-                        {user.bio || 'Welcome to my profile!'}{' '}
-                        <span className={`badge ${user.isPremiumUser ? 'bg-success' : 'bg-secondary'} ms-2`}>
-                            {user.isPremiumUser ? 'Premium User' : 'Standard User'}
+                        {user && user.bio ? user.bio : 'Welcome to my profile!'}
+                        <span className={`badge ${user && user.isPremiumUser ? 'bg-success' : 'bg-secondary'} ms-2`}>
+                            {user?.isPremiumUser ? 'Premium User' : 'Standard User'}
                         </span>
                     </p>
                 </div>
@@ -90,8 +97,8 @@ const Profile = ({ isDarkMode }) => {
                     <div className="row mb-4">
                         <div className="col-md-4 text-center">
                             <img
-                                src={user.profilePicture || '/default-avatar.png'}
-                                alt={`${user.name}'s Avatar`}
+                                src={user?.profilePicture ?? profileimage }
+                                alt={`${user?.name ?? 'User'}'s Avatar`}
                                 className="rounded-circle shadow"
                                 width="150"
                                 height="150"

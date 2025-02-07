@@ -1,7 +1,7 @@
 import React, { useState, useContext } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import AuthContext from '../context/Auth/authContext';
-import '../Login.css'; // Add this for custom CSS
+import '../login.css'; // Add this for custom CSS
 
 const Login = () => {
     const [credentials, setCredentials] = useState({ email: "", password: "" });

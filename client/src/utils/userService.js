@@ -3,47 +3,43 @@
 
 const getProfile = async () => {
     const HOST_URL = String(process.env.REACT_APP_API_BASE_URL);
-
-    // Retrieve auth_token from localStorage
     const authToken = localStorage.getItem('auth_token');
 
     if (!authToken) {
-        console.error('No authentication token found. Redirecting to login.');
-        alert('Please log in again.');
-        return null; // Return null or redirect logic
+        console.error("❌ No authentication token found. Redirecting to login.");
+        alert("Session expired. Please log in again.");
+        return null;
     }
 
     try {
-        console.log('[Entered Profile.js/userService.js/getProfile] Fetching from:', 
-                    `${HOST_URL}/api/user/fetchuser`)
+        console.log("🔹 Fetching User Profile from:", `${HOST_URL}/api/user/fetchuser`);
+        console.log("🔹 Sending Auth Token:", authToken);
 
-        const response = await fetch(
-            `${HOST_URL}/api/${String(process.env.REACT_APP_AUTH_FOR_USER)}/${String(process.env.REACT_APP_GETUSERPROFILE_TAG)}`, 
-            {
-                method: 'GET',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'auth_token': authToken,
-                },
-            }
-        );
+        const response = await fetch(`${HOST_URL}/api/user/fetchuser`, {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json",
+                "auth_token": authToken, // Ensure correct header format
+            },
+        });
+
+        console.log("🔹 Response Status:", response.status);
 
         if (!response.ok) {
-            const errorData = await response.json();
-            console.error('Failed to fetch user details:', errorData);
-            throw new Error(errorData.error || 'Unknown error occurred');
+            const errorText = await response.text();
+            console.error("❌ Failed to fetch user details:", errorText);
+            return null;
         }
 
         const userData = await response.json();
-        console.log('[Profile Fetched Successfully]:', userData);
-        return userData; // Return the fetched user profile data
+        console.log("✅ User Data Fetched Successfully:", userData);
+
+        return userData;
     } catch (error) {
-        console.error('Error fetching user profile:', error.message);
-        alert('Failed to load user profile. Please try again later.');
+        console.error("❌ Error fetching user profile:", error.message);
         return null;
     }
 };
-
 
 // Calls -> /api/user/edituser -> Returns Updated User Profile
 const updateProfile = async (userDetails) => {
@@ -110,7 +106,7 @@ const fetchGroups = async () => {
 
     // TRACK CONSOLE
     console.log('[Entered Profile.js/userService.js/fetchGroups] Fetching from:', `${HOST_URL}/api/${process.env.REACT_APP_AUTH_FOR_FETCHGROUPFORUSER}`);
-        
+
 
     if (!authToken) {
         throw new Error('No authentication token found. Please log in again.');
@@ -144,14 +140,14 @@ const createUser = async (userDetails) => {
     console.log('[Entered userService.js/createUser] Fetching from:', `${HOST_URL}/api/${process.env.REACT_APP_AUTH_FOR_USER || 'user'}/${process.env.REACT_APP_CREATEUSER_TAG || 'createuser'}`);
 
     try {
-        const response = await fetch(`${HOST_URL}/api/${String(process.env.REACT_APP_AUTH_FOR_USER)}/${String(process.env.REACT_APP_CREATEUSER_TAG)}`, 
-        {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(userDetails),
-        });
+        const response = await fetch(`${HOST_URL}/api/${String(process.env.REACT_APP_AUTH_FOR_USER)}/${String(process.env.REACT_APP_CREATEUSER_TAG)}`,
+            {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(userDetails),
+            });
 
         if (!response.ok) {
             const errorData = await response.json();
@@ -162,9 +158,9 @@ const createUser = async (userDetails) => {
         return response.json();
     } catch (error) {
         console.error('Error during the user creation request:', error);
-        throw error; 
+        throw error;
     }
 };
 
 
-export { getProfile, updateProfile, fetchJobs, fetchGroups ,createUser};
+export { getProfile, updateProfile, fetchJobs, fetchGroups, createUser };
